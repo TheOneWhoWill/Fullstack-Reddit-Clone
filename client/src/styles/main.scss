@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
+
+* {margin: 0;padding: 0;box-sizing: border-box}
+
+body {
+  background-color: #030303;
+}
+
+::-webkit-scrollbar {width: 6px}
+::-webkit-scrollbar-track {background: #0f0f0f}
+::-webkit-scrollbar-thumb {background: rgb(172, 172, 172)}
+
+@import './Post.scss';
+@import './Header.scss';
+@import './Form.scss';
+@import './FrontPage.scss';
+@import './Profile.scss';
+@import './PostPage.scss';
+@import './SubReddit.scss';

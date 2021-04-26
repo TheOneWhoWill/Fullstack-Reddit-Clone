@@ -1,0 +1,149 @@
+.Form {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  .inputForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    h2 {
+      color: white;
+      font-size: 36px;
+      font-family: Arial;
+      letter-spacing: 3px;
+    }
+    h2:hover {
+      letter-spacing: 5px;
+      transition: 0.3s ease;
+    }
+    h4 {
+      color: white;
+      font-size: 10px;
+      font-weight: 300;
+      font-family: Arial;
+      letter-spacing: 1px;
+    }
+    .formInput {
+      width: 100%;
+      height: 50px;
+      padding: 15px;
+      display: flex;
+      color: white;
+      align-self: center;
+      border-radius: 8px;
+      background-color: #1A1A1B;
+      input {
+        width: 100%;
+        border: none;
+        outline: none;
+        color: white;
+        font-size: 16px;
+        margin-left: 9px;
+        background: none;
+        letter-spacing: 2px;
+      }
+      input:hover::placeholder {
+        letter-spacing: 4px;
+        transition: 0.3s ease;
+      }
+    }
+    .formTextarea {
+      width: 100%;
+      height: 200px;
+      padding: 15px;
+      display: flex;
+      color: white;
+      max-width: 100%;
+      align-self: center;
+      border-radius: 8px;
+      background-color: #1A1A1B;
+      textarea {
+        border: none;
+        resize: none;
+        outline: none;
+        color: white;
+        font-size: 16px;
+        min-width: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        min-height: 100%;
+        margin-left: 9px;
+        background: none;
+        letter-spacing: 0px;
+      }
+      textarea:hover::placeholder {
+        font-size: 19px;
+        transition: 0.6s ease;
+      }
+    }
+    .formButton {
+      width: 110px;
+      height: 50px;
+      border: none;
+      outline: none;
+      color: white;
+      font-size: 19px;
+      align-self: center;
+      border-radius: 8px;
+      background-color: #ff4500;
+      border: 1px solid #ff4500;
+    }
+    .form:hover {
+      cursor: pointer;
+      border: 1px solid white;
+    }
+    .redirectFromButton:hover {
+      cursor: pointer;
+    }
+    .redirectFromButton {
+      color: white;
+      font-size: 16px;
+      font-family: Arial;
+      text-decoration: none;
+    }
+  }
+}
+
+.formUpload {
+  width: 555px;
+  display: flex;
+  height: 280px;
+  color: white;
+  font-size: 37px;
+  max-width: 555px;
+  border-radius: 4px;
+  align-items: center;
+  justify-content: center;
+  background-color: #1A1A1B;
+  border: 1px dashed #343536;
+  input {
+    display: none;
+  }
+  p {
+    font-size: 22px;
+    font-family: Arial;
+    margin-right: 10px;
+  }
+  img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+}
+
+.inputLogin {
+  width: 400px;
+  height: 540px;
+}
+.inputRegister {
+  width: 400px;
+  height: 530px;
+}
+.inputCreate {
+  width: 555px;
+  height: 650px;
+}
+.inputCreateSub {
+  width: 555px;
+  height: 850px;
+}

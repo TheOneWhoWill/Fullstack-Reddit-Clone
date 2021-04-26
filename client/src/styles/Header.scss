@@ -1,0 +1,75 @@
+.Header {
+  top: 0;
+  z-index: 5;
+  width: 100%;
+  height: 70px;
+  display: flex;
+  color: white;
+  padding: 1.5rem;
+  position: sticky;
+  margin-bottom: 30px;
+  align-items: center;
+  background-color: #1A1A1B;
+  justify-content: space-between;
+  border-bottom: 2px solid rgb(73, 73, 73);
+  .headerLeft {
+    display: flex;
+    align-items: center;
+    img {
+      border-radius: 25%;
+      margin-right: 18px;
+    }
+    h5 {
+      font-size: 29px;
+      font-family: Arial;
+      font-weight: 300;
+      letter-spacing: 2px;
+    }
+  }
+  .headerRight {
+    position: relative;
+    .profileImage {
+      width: 3rem;
+      border-radius: 50%;
+    }
+    .loginButton {
+      padding: 9px;
+      color: white;
+      font-size: 16px;
+      font-family: Arial;
+      border-radius: 6px;
+      letter-spacing: 2px;
+      text-decoration: none;
+      background-color: #ff4500;
+      border: 1px solid #ff4500;
+    }
+    .loginButton:hover {
+      cursor: pointer;
+      border: 1px solid white;
+    }
+  }
+}
+
+.optionsHeader {
+  display: flex;
+  min-width: 9rem;
+  position: absolute;
+  border-radius: 8px;
+  flex-direction: column;
+  border: 0.2rem solid rgb(73, 73, 73);
+  transform: translateX(-6rem);
+  background-color: #1A1A1B;
+  .headerButton {
+    border: none;
+    display: flex;
+    outline: none;
+    padding: 1rem;
+    color: #ffffff;
+    background: none;
+    font-size: 1.25rem;
+    justify-content: flex-start;
+  }
+  .headerButton:hover {
+    background-color: #080808;
+  }
+}
