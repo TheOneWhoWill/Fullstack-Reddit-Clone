@@ -21,9 +21,9 @@ function SideBar() {
       })
 
     axios.get(`http://localhost:2000/user/${currentUser ? currentUser.uid : null}`)
-    .then(res => {
-      setJoined(res.data[0].joined);
-    })
+      .then(res => {
+        setJoined(res.data[0].joined);
+      })
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -46,6 +46,7 @@ function SideBar() {
                 joined={joinedSubs.includes(sub.SubredditHandle) ? true : false}
                 image={sub.SubredditPicture}
                 subHandle={sub.SubredditHandle}
+                key={sub._id}
               />
             )
           })}

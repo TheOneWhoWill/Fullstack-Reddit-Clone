@@ -1,39 +1,21 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 
 function CummunityItem(props) {
-  var [joined, setJoined] = useState(props.joined);
 
-  // Styling the button if a user already joined the sub
-  function JoinedBtn(props) {
-    return (
-      <button
-        className="JoinedBTN"
-        onClick={() => leaveSub(props.subHandle, props.user)}
-      >
-        <span>Joined</span>
-      </button>
-    )
-  }
-  // Styling the button if a user already joined the sub
-  function JoinBtn(props) {
-    return (
-      <button
-        className="JoinBTN"
-        onClick={() => joinSub(props.subHandle, props.user)}
-      >
-        Join
-      </button>
-    )
-  }
+  const { currentUser } = useAuth();
+  const user = currentUser ? currentUser.uid : null;
+  const destination = `r/${props.subHandle}`;
+  const [joined, setJoined] = useState(false);
+  const [joinedSubs, setJoinedSubs] = useState([]);
 
   // I send a Axios Request to join a subreddit
-  async function joinSub(subReddit, user, getUserData) {
+  async function joinSub() {
     
     const postReq = {
-      cummunity: subReddit
+      cummunity: props.subHandle
     }
 
     await axios.post(`http://localhost:2000/user/join/${user}`, postReq)
@@ -41,18 +23,27 @@ function CummunityItem(props) {
   }
 
   // I send a Axios Request to leave a subreddit
-  async function leaveSub(subReddit, user) {
+  async function leaveSub() {
 
     const postReq = {
-      cummunity: subReddit
+      cummunity: props.subHandle
     }
 
     await axios.post(`http://localhost:2000/user/leave/${user}`, postReq)
     .then(setJoined(false))
   }
 
-  const { currentUser } = useAuth();
-  const destination = `r/${props.subHandle}`;
+  useEffect(() => {
+    async function fetchUserData() {
+      axios.get(`http://localhost:2000/user/${user}`).then(result => {
+        setJoinedSubs(result.data[0].joined)
+        if (joinedSubs.find((joinedUser) => joinedUser === props.subHandle)) {
+          setJoined(true);
+        } else setJoined(false);
+      })
+    }
+    fetchUserData()
+  }, [joined, joinedSubs, user, props.subHandle])
 
   return (
     <div className="cummunityItem">
@@ -62,7 +53,11 @@ function CummunityItem(props) {
           <Link to={destination}>r/{props.subHandle}</Link>
           <p>999 members</p>
         </div>
-        {joined ? <JoinedBtn user={currentUser.uid} subHandle={props.subHandle}/> : <JoinBtn user={currentUser.uid} subHandle={props.subHandle}/>}
+        {joined ? 
+          <button className="JoinedBTN" onClick={() => leaveSub()}><span>Joined</span></button>
+          :
+          <button className="JoinBTN" onClick={() => joinSub()}>Join</button>
+        }
       </div>
     </div>
   )
