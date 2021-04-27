@@ -23,7 +23,6 @@ function SideBar() {
     axios.get(`http://localhost:2000/user/${currentUser ? currentUser.uid : null}`)
     .then(res => {
       setJoined(res.data[0].joined);
-      console.log(res.data[0].joined);
     })
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
