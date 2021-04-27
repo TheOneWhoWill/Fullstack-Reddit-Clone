@@ -1,9 +1,20 @@
 import React from 'react'
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+
+function JoinedBtn() {
+  return (
+    <button className="JoinedBTN">Joined</button>
+  )
+}
+
+function JoinBtn() {
+  return (
+    <button className="JoinBTN">Join</button>
+  )
+}
 
 function CummunityItem(props) {
 
-  const history = useHistory();
   const destination = `r/${props.subHandle}`;
 
   return (
@@ -14,7 +25,7 @@ function CummunityItem(props) {
           <Link to={destination}>r/{props.subHandle}</Link>
           <p>999 members</p>
         </div>
-        <button onClick={() => history.push(destination)}>Visit</button>
+        {props.joined ? <JoinedBtn /> : <JoinBtn />}
       </div>
     </div>
   )
