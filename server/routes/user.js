@@ -41,6 +41,7 @@ router.post('/join/:id', (req, res) => {
   Users.findOne({uid: id}, (err, result) => {
     result.joined.push(cummunity)
     result.save()
+    res.send(result)
   })
 
 })
@@ -56,6 +57,7 @@ router.post('/leave/:id', (req, res) => {
     // of the Cummunity you want to leave
     result.joined.splice(result.joined.indexOf(cummunity), 1); 
     result.save()
+    res.send(result)
   })
 
 })

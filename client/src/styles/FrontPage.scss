@@ -50,35 +50,6 @@
       text-decoration: none;
       text-overflow: ellipsis;
     }
-    .JoinBTN {
-      height: 32px;
-      width: 106px;
-      border: none;
-      font-size: 16px;
-      font-weight: 600;
-      padding: 4px 16px;
-      border-radius: 29px;
-      border: 1px solid rgb(255, 255, 255);
-    }
-    .JoinBTN:hover {
-      border: 1px solid rgb(218, 218, 218);
-      background-color: rgb(218, 218, 218);
-    }
-    .JoinedBTN {
-      height: 32px;
-      width: 106px;
-      border: none;
-      color: white;
-      font-size: 16px;
-      font-weight: 600;
-      padding: 4px 16px;
-      border-radius: 29px;
-      background-color: #1A1A1B;
-      border: 1px solid rgb(255, 255, 255);
-    }
-    .JoinedBTN:hover span {display: none}
-    .JoinedBTN:hover:before {content: "Leave"}
-    .JoinedBTN:hover {background-color: #202020}
   }
 
   .cummunityItemRightDetails {
@@ -163,3 +134,33 @@
     }
   }
 }
+
+.JoinBTN {
+  height: 32px;
+  width: 94px;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 4px 16px;
+  border-radius: 29px;
+  border: 1px solid rgb(255, 255, 255);
+}
+.JoinBTN:hover {
+  border: 1px solid rgb(218, 218, 218);
+  background-color: rgb(218, 218, 218);
+}
+.JoinedBTN {
+  height: 32px;
+  width: 94px;
+  border: none;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 4px 16px;
+  border-radius: 29px;
+  background-color: #1A1A1B;
+  border: 1px solid rgb(255, 255, 255);
+}
+.JoinedBTN:hover span {display: none}
+.JoinedBTN:hover:before {content: "Leave"}
+.JoinedBTN:hover {background-color: #202020}

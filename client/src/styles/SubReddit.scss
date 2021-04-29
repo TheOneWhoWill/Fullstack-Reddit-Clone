@@ -46,11 +46,18 @@
     flex-direction: column;
     justify-content: center;
     h2 {
+      font-size: 28px;
       font-weight: 500;
+      margin-right: 10px;
     }
     p {
+      font-size: 14px;
       color: #818384;
     }
+  }
+
+  .SubBarHandleTop {
+    display: flex;
   }
 }
 

@@ -8,8 +8,9 @@ function CummunityItem(props) {
   const { currentUser } = useAuth();
   const user = currentUser ? currentUser.uid : null;
   const destination = `r/${props.subHandle}`;
-  const [joined, setJoined] = useState(false);
+  const [joined, setJoined] = useState(null);
   const [joinedSubs, setJoinedSubs] = useState([]);
+  const baseUserRequest = 'http://localhost:2000/user/';
 
   // I send a Axios Request to join a subreddit
   async function joinSub() {
@@ -18,8 +19,8 @@ function CummunityItem(props) {
       cummunity: props.subHandle
     }
 
-    await axios.post(`http://localhost:2000/user/join/${user}`, postReq)
-    .then(setJoined(true))
+    await axios.post(`${baseUserRequest}join/${user}`, postReq)
+    .then(resonse => setJoined(resonse))
   }
 
   // I send a Axios Request to leave a subreddit
@@ -29,21 +30,29 @@ function CummunityItem(props) {
       cummunity: props.subHandle
     }
 
-    await axios.post(`http://localhost:2000/user/leave/${user}`, postReq)
-    .then(setJoined(false))
+    await axios.post(`${baseUserRequest}leave/${user}`, postReq)
+    .then(resonse => setJoined(resonse))
+  }
+
+  async function fetchUserData() {
+    // The ${baseUserRequest}${user} bit looks weird but it works
+    // Trust me
+    axios.get(`${baseUserRequest}${user}`).then(result => {
+      setJoinedSubs(result.data[0].joined)
+    })
+  }
+
+  function userIsJoined() {
+    if (joinedSubs.find((joinedUser) => joinedUser === props.subHandle)) {
+      setJoined(true);
+    } else setJoined(false);
   }
 
   useEffect(() => {
-    async function fetchUserData() {
-      axios.get(`http://localhost:2000/user/${user}`).then(result => {
-        setJoinedSubs(result.data[0].joined)
-        if (joinedSubs.find((joinedUser) => joinedUser === props.subHandle)) {
-          setJoined(true);
-        } else setJoined(false);
-      })
-    }
     fetchUserData()
-  }, [joined, joinedSubs, user, props.subHandle])
+    userIsJoined()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [joinedSubs])
 
   return (
     <div className="cummunityItem">
