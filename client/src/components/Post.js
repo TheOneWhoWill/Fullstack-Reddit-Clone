@@ -88,7 +88,7 @@ const Post = React.memo((props) => {
             {liked ? <button className="liked" onClick={() => downvotePost(postData)}>+</button> : <button className="notLiked" onClick={() => upvotePost(postData)}>+</button>}
             {likeCount ? <p>{likeCount}</p> : <p>0</p>}
           </div>
-          <div className="topContainer"  onClick={() => history.push(`/post/${postID}`)}>
+          <div className="topContainer">
             <div className="top">
               {postData ? <h4>Posted by {postData.user} on r/{postData.subReddit}</h4> : <></>}
             </div>
@@ -107,7 +107,7 @@ const Post = React.memo((props) => {
             }
           </div>
         </div>
-        <div className="postImage">
+        <div className="postImage" onClick={() => history.push(`/post/${postID}`)}>
           {postData ? <LazyLoad height={200} offset={50}><img src={postData.imageURL} alt="postImage"/></LazyLoad> : <></>}
         </div>
         <div className="bottomPostContainer">

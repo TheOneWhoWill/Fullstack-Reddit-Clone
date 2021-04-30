@@ -46,6 +46,7 @@ function SideBar() {
                 joined={joinedSubs.includes(sub.SubredditHandle) ? true : false}
                 image={sub.SubredditPicture}
                 subHandle={sub.SubredditHandle}
+                members={sub.members}
                 key={sub._id}
               />
             )

@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { usePrompt } from '../../contexts/PromptContext';
 
 function CummunityItem(props) {
 
   const { currentUser } = useAuth();
+  const { setPromptData } = usePrompt();
   const user = currentUser ? currentUser.uid : null;
   const destination = `r/${props.subHandle}`;
   const [joined, setJoined] = useState(null);
@@ -21,6 +23,8 @@ function CummunityItem(props) {
 
     await axios.post(`${baseUserRequest}join/${user}`, postReq)
     .then(resonse => setJoined(resonse))
+    // Displays a prompt to the user
+    setPromptData(`Successfully joined r/${props.subHandle}`)
   }
 
   // I send a Axios Request to leave a subreddit
@@ -32,6 +36,8 @@ function CummunityItem(props) {
 
     await axios.post(`${baseUserRequest}leave/${user}`, postReq)
     .then(resonse => setJoined(resonse))
+    // Displays a prompt to the user
+    setPromptData(`Successfully left r/${props.subHandle}`)
   }
 
   async function fetchUserData() {
@@ -60,7 +66,7 @@ function CummunityItem(props) {
       <div className="cummunityItemRight">
         <div className="cummunityItemRightDetails">
           <Link to={destination}>r/{props.subHandle}</Link>
-          <p>999 members</p>
+          <p>{props.members} members</p>
         </div>
         {joined ? 
           <button className="JoinedBTN" onClick={() => leaveSub()}><span>Joined</span></button>
