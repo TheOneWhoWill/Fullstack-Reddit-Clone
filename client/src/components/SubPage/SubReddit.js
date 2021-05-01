@@ -67,6 +67,7 @@ function SubReddit() {
         {subData ? 
         <SubSidebar
           handle={subData.SubredditHandle}
+          description={subData.description}
         /> : <></>}
       </div>
     </div>

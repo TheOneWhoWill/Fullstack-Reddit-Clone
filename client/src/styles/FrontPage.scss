@@ -161,6 +161,13 @@
   background-color: #1A1A1B;
   border: 1px solid rgb(255, 255, 255);
 }
+
+@media only screen and (max-width: 930px)  {
+  .SideBar {
+    display: none;
+  }
+}
+
 .JoinedBTN:hover span {display: none}
 .JoinedBTN:hover:before {content: "Leave"}
 .JoinedBTN:hover {background-color: #202020}

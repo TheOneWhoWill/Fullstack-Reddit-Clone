@@ -42,10 +42,13 @@ function CummunityItem(props) {
 
   async function fetchUserData() {
     // The ${baseUserRequest}${user} bit looks weird but it works
-    // Trust me
-    axios.get(`${baseUserRequest}${user}`).then(result => {
-      setJoinedSubs(result.data[0].joined)
-    })
+    // Trust me. The if statement is to
+    // prevent Errors for people not logged in
+    if(currentUser) {
+      await axios.get(`${baseUserRequest}${user}`).then(result => {
+        setJoinedSubs(result.data[0].joined)
+      })
+    }
   }
 
   function userIsJoined() {

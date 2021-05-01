@@ -11,6 +11,16 @@ function SideBar() {
   const [subs, setSubs] = useState([]);
   const [joinedSubs, setJoined] = useState([]);
 
+  async function getUserData() {
+    if(currentUser) {
+      // This just feched user data
+      axios.get(`http://localhost:2000/user/${currentUser ? currentUser.uid : null}`)
+      .then(res => {
+        setJoined(res.data[0].joined);
+      })
+    }
+  }
+
   useEffect(() => {
     axios.get('http://localhost:2000/community')
       .then(res => {
@@ -19,11 +29,12 @@ function SideBar() {
       .catch(err => {
         console.log(err)
       })
-
-    axios.get(`http://localhost:2000/user/${currentUser ? currentUser.uid : null}`)
-      .then(res => {
-        setJoined(res.data[0].joined);
-      })
+    // The if statement is to prevent Errors
+    // for people not logged in
+    if(currentUser) {
+      // This just feched user data
+      getUserData()
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
