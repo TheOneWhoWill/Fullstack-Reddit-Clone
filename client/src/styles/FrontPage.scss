@@ -169,7 +169,20 @@
 }
 
 @media only screen and (max-width: 846px)  {
-  //
+  .Posts {
+    width: 100%;
+  }
+  .Post {
+    margin-left: 0;
+    margin-right: 0;
+    max-width: 100%;
+    min-width: 100%;
+    border-radius: 0;
+    margin-bottom: 20px;
+  }
+  .Post .postBody .lazyload-wrapper {
+    border-radius: 0px;
+  }
 }
 
 .JoinedBTN:hover span {display: none}
