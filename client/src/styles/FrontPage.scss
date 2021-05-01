@@ -135,6 +135,45 @@
   }
 }
 
+.CreatePost {
+  padding: 8px;
+  display: flex;
+  max-height: 64px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+  input {
+    width: 100%;
+    border: none;
+    margin: 10px;
+    height: 36px;
+    padding: 10px;
+    border-radius: 4px;
+    outline: none;
+    border: 1px solid rgb(73, 73, 73);
+    background: #272729;
+  }
+  .CreatePostIcon {
+    color: rgb(204, 204, 204);
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+  }
+}
+
+.CreatePost:hover {
+  border: 1px solid rgb(73, 73, 73);
+}
+
+.CreatePost input:hover {
+  border: 1px solid white;
+}
+
 .JoinBTN {
   height: 32px;
   width: 94px;
@@ -163,22 +202,22 @@
 }
 
 @media only screen and (max-width: 930px)  {
-  .SideBar {
-    display: none;
-  }
-}
-
-@media only screen and (max-width: 846px)  {
   .Posts {
     width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
   }
   .Post {
     margin-left: 0;
     margin-right: 0;
     max-width: 100%;
     min-width: 100%;
-    border-radius: 0;
+    border-radius: 4px;
     margin-bottom: 20px;
+  }
+  .SideBar {
+    display: none;
   }
   .Post .postBody .lazyload-wrapper {
     border-radius: 0px;
