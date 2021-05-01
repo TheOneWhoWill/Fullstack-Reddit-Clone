@@ -168,6 +168,10 @@
   }
 }
 
+@media only screen and (max-width: 846px)  {
+  //
+}
+
 .JoinedBTN:hover span {display: none}
 .JoinedBTN:hover:before {content: "Leave"}
 .JoinedBTN:hover {background-color: #202020}

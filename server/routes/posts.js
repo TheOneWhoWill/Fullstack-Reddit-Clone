@@ -1,5 +1,6 @@
 import express from 'express';
 import Posts from '../models/post.js';
+import Users from '../models/user.js';
 const router = express.Router()
 
 // Getting all
@@ -54,6 +55,31 @@ router.get('/user/:id', (req, res) => {
     })
     .catch((error) => {
       console.log(error)
+    })
+})
+// Getting All for One User
+// This is all the subs the user joined
+router.get('/user/feed/:id', (req, res) => {
+
+  // Gets uid of User
+  var user = req.params.id;
+  var subs = [];
+
+  // Finding which SubReddits the Uid is subbed to
+  Users.find({uid: user})
+    .then((result) => {
+      var subed = result[0].joined;
+      // Adds result to `subs` array
+      subed.map(sub => subs.push(sub))
+      // Uses `subs` array to look for
+      // posts in that array
+      Posts.find({subReddit: {'$in': subed} })
+        .then((result) => {
+          res.json(result)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     })
 })
 
@@ -111,7 +137,7 @@ router.post('/upvote/:id', (req, res) => {
 
 router.post('/downvote/:id', (req, res) => {
   const id = req.params.id;
-  var sendContent = {};
+
   Posts.findOne({_id: id}, (err, result) => {
     if(err) {
       res.error(err);
