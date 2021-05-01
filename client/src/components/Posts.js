@@ -1,4 +1,4 @@
-import { faPoll, faLink } from '@fortawesome/free-solid-svg-icons'
+import { faPoll, faLink, faFire, faCertificate, faSort } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useAuth } from '../contexts/AuthContext';
 import React, { useEffect, useState } from'react';
@@ -48,6 +48,29 @@ const Posts = React.memo(() => {
           className="CreatePostIcon"
           icon={faLink}
         />
+      </div>
+      <div className="Post SortBy">
+        <div className="SortByTab">
+          <FontAwesomeIcon
+            className="CreatePostIcon"
+            icon={faFire}
+          />
+          Hot
+        </div>
+        <div className="SortByTab">
+          <FontAwesomeIcon
+            className="CreatePostIcon"
+            icon={faCertificate}
+          />
+          New
+        </div>
+        <div className="SortByTab">
+          <FontAwesomeIcon
+            className="CreatePostIcon"
+            icon={faSort}
+          />
+          Top
+        </div>
       </div>
       {posts.map(post => {
         return <Post post={post} key={post._id} />

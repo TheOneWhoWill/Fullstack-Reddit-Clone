@@ -1,0 +1,22 @@
+.SortBy {
+  padding: 8px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  .SortByTab {
+    height: 35px;
+    display: flex;
+    color: white;
+    font-size: 20px;
+    margin-right: 10px;
+    border-radius: 24px;
+    align-items: center;
+    padding: 4px 16px 4px 16px;
+    .CreatePostIcon {
+      margin-right: 8px;
+    }
+  }
+  .SortByTab:hover {
+    background: rgb(73, 73, 73);
+  }
+}
