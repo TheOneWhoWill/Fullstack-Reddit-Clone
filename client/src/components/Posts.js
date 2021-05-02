@@ -15,6 +15,15 @@ const Posts = React.memo(() => {
   const profilePicture = currentUser ? currentUser.photoURL : null;
   const query = currentUser ? `http://localhost:2000/posts/user/feed/${currentUser.uid}` : `http://localhost:2000/posts`
 
+  // Sort by New
+  function sortNew() {
+    return [...posts].sort((a, b) => b.created - a.created)
+  }
+  // Sort by Top
+  function sortTop() {
+    return [...posts].sort((a, b) => b.voteCount - a.voteCount)
+  }
+
   useEffect(() => {
     axios.get(query)
       .then(res => {
@@ -57,14 +66,14 @@ const Posts = React.memo(() => {
           />
           Hot
         </div>
-        <div className="SortByTab">
+        <div className="SortByTab" onClick={() => setPosts(sortNew)}>
           <FontAwesomeIcon
             className="CreatePostIcon"
             icon={faCertificate}
           />
           New
         </div>
-        <div className="SortByTab">
+        <div className="SortByTab" onClick={() => setPosts(sortTop)}>
           <FontAwesomeIcon
             className="CreatePostIcon"
             icon={faSort}

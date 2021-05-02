@@ -7,7 +7,8 @@ const postSchema = new Schema({
   voted: Array,
   subReddit: String,
   title: String,
-  imageURL: String
+  imageURL: String,
+  created: Number
 })
 
 const Posts = mongoose.model('Posts', postSchema, 'Posts');

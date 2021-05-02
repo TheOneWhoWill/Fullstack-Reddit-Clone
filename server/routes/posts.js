@@ -73,7 +73,7 @@ router.get('/user/feed/:id', (req, res) => {
       subed.map(sub => subs.push(sub))
       // Uses `subs` array to look for
       // posts in that array
-      Posts.find({subReddit: {'$in': subed} })
+      Posts.find({subReddit: {'$in': subed} }).sort([['voteCount', 'descending']])
         .then((result) => {
           res.json(result)
         })
@@ -91,7 +91,8 @@ router.post('/create', (req, res) => {
     voted: [req.body.voted],
     subReddit: req.body.subReddit,
     title: req.body.title,
-    imageURL: req.body.imageURL
+    imageURL: req.body.imageURL,
+    created: Math.floor(Date.now() / 1000)
   }
   Posts.create(userPostRequest)
 })
