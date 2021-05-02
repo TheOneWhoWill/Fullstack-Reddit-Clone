@@ -3,6 +3,16 @@ import Posts from '../models/post.js';
 import Users from '../models/user.js';
 const router = express.Router()
 
+// Hot Algorithim
+function hot(voteCount, timePosted) {
+  let baseScore = Math.log(Math.max(voteCount));
+  let now = Math.floor(Date.now() / 1000);
+  let timeDiff = (now - timePosted)
+  let trustScore = Math.log(Math.max(baseScore)) * (-8 * timeDiff * timeDiff)
+
+  return trustScore
+}
+
 // Getting all
 router.get('/', async (req, res) => {
   Posts.find().sort([['voteCount', 'descending']])
@@ -73,9 +83,9 @@ router.get('/user/feed/:id', (req, res) => {
       subed.map(sub => subs.push(sub))
       // Uses `subs` array to look for
       // posts in that array
-      Posts.find({subReddit: {'$in': subed} }).sort([['voteCount', 'descending']])
+      Posts.find({subReddit: {'$in': subed} })
         .then((result) => {
-          res.json(result)
+          res.json(result.sort((a, b) => hot(b.voteCount, b.created) - hot(a.voteCount, a.created)))
         })
         .catch((error) => {
           console.log(error)
