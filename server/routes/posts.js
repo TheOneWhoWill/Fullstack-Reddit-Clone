@@ -101,19 +101,24 @@ router.delete('/delete/:id', (req, res) => {
   const voter = req.body.voter;
   const id = req.params.id;
   var sendContent = {};
+  console.log(voter)
 
-  Posts.findById({_id: id}, (error, result) => {
-    if(voter !== result.user) {
-      sendContent.msg = 'You can\'t delete someone else\'s Post';
+  Posts.findOne({_id: id})
+    .then((result) => {
+      console.log(result)
       sendContent.code = 500;
-      res.send(sendContent);
-    } else {
-      sendContent.msg = 'Currently in Test Mode but this is where the post would be deleted';
-      sendContent.code = 500;
-      res.send(sendContent);
-    }
-    result.save()
-  })
+      if(result.user === voter) {
+        sendContent.msg = 'Post successfully Deleted';
+        res.send(sendContent)
+        result.delete()
+      } else {
+        sendContent.msg = 'You can\'t delete someone else\'s Post';
+        res.send(sendContent)
+      }
+    })
+    .catch((error) => {
+      console.log(error)
+    })
 })
 
 router.post('/upvote/:id', (req, res) => {
