@@ -15,6 +15,18 @@ const Posts = React.memo(() => {
   const profilePicture = currentUser ? currentUser.photoURL : null;
   const query = currentUser ? `http://localhost:2000/posts/user/feed/${currentUser.uid}` : `http://localhost:2000/posts`
 
+  // Sort by Hot
+  function hot(voteCount, timePosted) {
+    let baseScore = Math.log(Math.max(voteCount));
+    let now = Math.floor(Date.now() / 1000);
+    let timeDiff = (now - timePosted)
+    let trustScore = Math.log(Math.max(baseScore)) * (-8 * timeDiff * timeDiff)
+
+    return trustScore
+  }
+  function sortHot() {
+    return [...posts].sort((a, b) => hot(b.voteCount, b.created) - hot(a.voteCount, a.created))
+  }
   // Sort by New
   function sortNew() {
     return [...posts].sort((a, b) => b.created - a.created)
@@ -59,7 +71,7 @@ const Posts = React.memo(() => {
         />
       </div>
       <div className="Post SortBy">
-        <div className="SortByTab">
+        <div className="SortByTab" onClick={() => setPosts(sortHot)}>
           <FontAwesomeIcon
             className="CreatePostIcon"
             icon={faFire}
