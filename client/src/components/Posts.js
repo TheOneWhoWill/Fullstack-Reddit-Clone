@@ -14,7 +14,7 @@ const Posts = React.memo(() => {
 
   let currentPage = 1
   const profilePicture = currentUser ? currentUser.photoURL : null;
-  const query = currentUser ? `http://localhost:2000/posts/user/feed/${currentUser.uid}/5/${currentPage}` : `http://localhost:2000/posts`
+  const query = currentUser ? `http://localhost:2000/posts/user/feed/${currentUser.uid}/3/${currentPage}` : `http://localhost:2000/posts`
 
   // Sort by Hot
   function hot(voteCount, timePosted) {
@@ -49,7 +49,7 @@ const Posts = React.memo(() => {
       .catch(err => {
         console.log(err)
       })
-  }, [query]);
+  }, []);
 
   return (
     <div className="Posts">

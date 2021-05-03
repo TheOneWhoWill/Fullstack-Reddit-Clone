@@ -51,6 +51,18 @@ router.get('/exists/:id', (req, res) => {
     })
 })
 
+// Getting One
+router.get('/query/:id', (req, res) => {
+  var queryTerm = req.params.id;
+  SubReddit.find({SubredditHandle: new RegExp(queryTerm, 'i')})
+    .then((results) => {
+      res.json(results)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+})
+
 // Inserting One
 router.post('/create', (req, res) => {
   const userSubRequest = {

@@ -95,9 +95,9 @@ router.get('/user/feed/:id/:limit/:page', (req, res) => {
       Posts.find({subReddit: {'$in': subed} })
         .then((result) => {
 
-          const reultPosts = result.slice(startIndex, endIndex)
+          const reultPosts = result.sort(sortHot).slice(startIndex, endIndex)
 
-          res.json(reultPosts.sort(sortHot))
+          res.json(reultPosts)
         })
         .catch((error) => {
           console.log(error)
