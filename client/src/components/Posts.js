@@ -12,28 +12,33 @@ const Posts = React.memo(() => {
   const { currentUser } = useAuth();
   const [posts, setPosts] = useState([]);
 
+  let currentPage = 1
   const profilePicture = currentUser ? currentUser.photoURL : null;
-  const query = currentUser ? `http://localhost:2000/posts/user/feed/${currentUser.uid}` : `http://localhost:2000/posts`
+  const query = currentUser ? `http://localhost:2000/posts/user/feed/${currentUser.uid}/5/${currentPage}` : `http://localhost:2000/posts`
 
   // Sort by Hot
   function hot(voteCount, timePosted) {
-    let baseScore = Math.log(Math.max(voteCount));
-    let now = Math.floor(Date.now() / 1000);
-    let timeDiff = (now - timePosted)
-    let trustScore = Math.log(Math.max(baseScore)) * (-8 * timeDiff * timeDiff)
-
+    let z = 1.281551565545;
+    let right = z*Math.sqrt(voteCount/((Date.now() / 1000) - timePosted));
+    let trustScore = right
+    console.log(trustScore)
     return trustScore
   }
-  function sortHot() {
-    return [...posts].sort((a, b) => hot(b.voteCount, b.created) - hot(a.voteCount, a.created))
+  function sortHot(a, b) {
+    a.trust = 0;
+    b.trust = 0;
+    return (b.trust + hot(b.voteCount, b.created)) - (a.trust + hot(a.voteCount, a.created))
+  }
+  function hotHandler(arr) {
+    return [...arr].sort(sortHot)
   }
   // Sort by New
-  function sortNew() {
-    return [...posts].sort((a, b) => b.created - a.created)
+  function sortNew(arr) {
+    return [...arr].sort((a, b) => b.created - a.created)
   }
   // Sort by Top
-  function sortTop() {
-    return [...posts].sort((a, b) => b.voteCount - a.voteCount)
+  function sortTop(arr) {
+    return [...arr].sort((a, b) => b.voteCount - a.voteCount)
   }
 
   useEffect(() => {
@@ -44,7 +49,7 @@ const Posts = React.memo(() => {
       .catch(err => {
         console.log(err)
       })
-  }, []);
+  }, [query]);
 
   return (
     <div className="Posts">
@@ -71,21 +76,21 @@ const Posts = React.memo(() => {
         />
       </div>
       <div className="Post SortBy">
-        <div className="SortByTab" onClick={() => setPosts(sortHot)}>
+        <div className="SortByTab" onClick={() => setPosts(hotHandler(posts))}>
           <FontAwesomeIcon
             className="CreatePostIcon"
             icon={faFire}
           />
           Hot
         </div>
-        <div className="SortByTab" onClick={() => setPosts(sortNew)}>
+        <div className="SortByTab" onClick={() => setPosts(sortNew(posts))}>
           <FontAwesomeIcon
             className="CreatePostIcon"
             icon={faCertificate}
           />
           New
         </div>
-        <div className="SortByTab" onClick={() => setPosts(sortTop)}>
+        <div className="SortByTab" onClick={() => setPosts(sortTop(posts))}>
           <FontAwesomeIcon
             className="CreatePostIcon"
             icon={faSort}

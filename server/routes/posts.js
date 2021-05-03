@@ -3,14 +3,17 @@ import Posts from '../models/post.js';
 import Users from '../models/user.js';
 const router = express.Router()
 
-// Hot Algorithim
 function hot(voteCount, timePosted) {
-  let baseScore = Math.log(Math.max(voteCount));
-  let now = Math.floor(Date.now() / 1000);
-  let timeDiff = (now - timePosted)
-  let trustScore = Math.log(Math.max(baseScore)) * (-8 * timeDiff * timeDiff)
+  let z = 1.281551565545;
+  let right = z*Math.sqrt(voteCount/((Date.now() / 1000) - timePosted));
+  let trustScore = right
 
   return trustScore
+}
+function sortHot(a, b) {
+  a.trust = 0;
+  b.trust = 0;
+  return (b.trust + hot(b.voteCount, b.created)) - (a.trust + hot(a.voteCount, a.created))
 }
 
 // Getting all
@@ -69,11 +72,16 @@ router.get('/user/:id', (req, res) => {
 })
 // Getting All for One User
 // This is all the subs the user joined
-router.get('/user/feed/:id', (req, res) => {
+router.get('/user/feed/:id/:limit/:page', (req, res) => {
 
   // Gets uid of User
-  var user = req.params.id;
+  let user = req.params.id;
+  let page = req.params.page;
+  let limit = req.params.limit;
   var subs = [];
+
+  const startIndex = (page - 1) * limit
+  const endIndex = page * limit
 
   // Finding which SubReddits the Uid is subbed to
   Users.find({uid: user})
@@ -81,11 +89,15 @@ router.get('/user/feed/:id', (req, res) => {
       var subed = result[0].joined;
       // Adds result to `subs` array
       subed.map(sub => subs.push(sub))
-      // Uses `subs` array to look for
-      // posts in that array
+      // Uses `subs` array to look
+      // for posts in that array
+      let perPage = 3
       Posts.find({subReddit: {'$in': subed} })
         .then((result) => {
-          res.json(result.sort((a, b) => hot(b.voteCount, b.created) - hot(a.voteCount, a.created)))
+
+          const reultPosts = result.slice(startIndex, endIndex)
+
+          res.json(reultPosts.sort(sortHot))
         })
         .catch((error) => {
           console.log(error)
