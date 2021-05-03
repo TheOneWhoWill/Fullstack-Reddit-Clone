@@ -2,10 +2,11 @@ import axios from 'axios';
 import CummunityItem from './CummunityItem';
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 function SideBar() {
 
+  const history = useHistory();
   const { currentUser } = useAuth();
 
   const [subs, setSubs] = useState([]);
@@ -62,6 +63,7 @@ function SideBar() {
               />
             )
           })}
+          <button className="viewAll" onClick={() => history.push('/all')}>View All</button>
         </div>
       </div>
     </div>

@@ -201,6 +201,9 @@
   border: 1px solid rgb(255, 255, 255);
 }
 
+.viewAll {height: 32px;width: 274px;border: none;font-size: 16px;font-weight: 600;padding: 4px 16px;border-radius: 29px;background-color: white;border: 1px solid rgb(255, 255, 255)}
+.viewAll:hover {border: 1px solid rgb(218, 218, 218);background-color: rgb(218, 218, 218)}
+
 @media only screen and (max-width: 930px)  {
   .Posts {
     width: 100%;

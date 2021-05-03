@@ -1,11 +1,12 @@
 import React from'react'
+import All from './Elements/All'
 import PostPage from './PostPage'
-import SubReddit from './SubPage/SubReddit'
 import FrontPage from './FrontPage'
 import Login from './Elements/Login'
 import Create from './Elements/Create'
 import Profile from './Elements/Profile'
 import Register from './Elements/Register'
+import SubReddit from './SubPage/SubReddit'
 import { Route, Switch } from 'react-router-dom'
 import CreateSubreddit from './Elements/CreateSubreddit'
 
@@ -20,6 +21,7 @@ function Body() {
       <Route exact path="/post/:id" component={PostPage}/>
       <Route exact path="/create/cummunity" component={CreateSubreddit}/>
       <Route exact path="/r/:sub" component={SubReddit}/>
+      <Route exact path="/all" component={All}/>
     </Switch>
   );
 }
