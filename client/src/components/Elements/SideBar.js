@@ -23,7 +23,7 @@ function SideBar() {
   }
 
   useEffect(() => {
-    axios.get('http://localhost:2000/community')
+    axios.get('http://localhost:2000/community/trending')
       .then(res => {
         setSubs(res.data)
       })

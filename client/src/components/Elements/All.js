@@ -1,18 +1,31 @@
-import React, { useState } from'react';
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
+import React, { useEffect, useState } from'react';
 import { faSortUp } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 function Cummunity(props) {
   return (
-    <li>
-      <FontAwesomeIcon icon={faSortUp} />
-      <img src={props.img} alt=""/>
-      <h4>{props.subHandle}</h4>
+    <li onClick={props.redirect}>
+      <div>
+        <FontAwesomeIcon icon={faSortUp} />
+        <img src={props.img} alt=""/>
+        <h4>r/{props.subHandle}</h4>
+      </div>
+      <span>{props.members} members</span>
     </li>
   )
 }
 
 function All() {
+
+  const history = useHistory();
+  const [subs, setSubs] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:2000/community/')
+    .then(res => setSubs(res.data))
+  })
   return (
     <div class="All">
       <div className="AllBanner">
@@ -27,10 +40,16 @@ function All() {
           <span>Rank Change</span>
         </div>
         <ol className="growingList">
-          <Cummunity
-            img="https://avatars.githubusercontent.com/u/49823186?v=4"
-            subHandle="r/TR"
-          />
+          {subs.map(sub => {
+            return (
+              <Cummunity
+                members={sub.members}
+                img={sub.SubredditPicture}
+                subHandle={sub.SubredditHandle}
+                redirect={() => history.push(`r/${sub.SubredditHandle}`)}
+              />
+            )
+          })}
         </ol>
       </div>
     </div>

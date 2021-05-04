@@ -4,6 +4,17 @@ const router = express.Router()
 
 // Getting all
 router.get('/', async (req, res) => {
+  SubReddit.find()
+    .then((result) => {
+      res.json(result)
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+})
+
+// Getting Trending
+router.get('/trending', async (req, res) => {
   SubReddit.find().limit(5)
     .then((result) => {
       res.json(result)
