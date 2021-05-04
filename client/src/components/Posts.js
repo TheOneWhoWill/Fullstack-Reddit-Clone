@@ -12,9 +12,8 @@ const Posts = React.memo(() => {
   const { currentUser } = useAuth();
   const [posts, setPosts] = useState([]);
 
-  let currentPage = 1
   const profilePicture = currentUser ? currentUser.photoURL : null;
-  const query = currentUser ? `http://localhost:2000/posts/user/feed/${currentUser.uid}/3/${currentPage}` : `http://localhost:2000/posts`
+  const query = currentUser ? `http://localhost:2000/posts/user/feed/${currentUser.uid}/99999999/` : `http://localhost:2000/posts`
 
   // Sort by Hot
   function hot(voteCount, timePosted) {
