@@ -53,7 +53,7 @@ router.get('/sub/:id', (req, res) => {
   var id = req.params.id;
   Posts.find({subReddit: id})
     .then((result) => {
-      res.json(result)
+      res.json(result.sort(sortHot))
     })
     .catch((error) => {
       console.log(error)
@@ -72,16 +72,17 @@ router.get('/user/:id', (req, res) => {
 })
 // Getting All for One User
 // This is all the subs the user joined
-router.get('/user/feed/:id/:limit/:page', (req, res) => {
+router.get('/user/feed/:id/:page/:type', (req, res) => {
 
   // Gets uid of User
   let user = req.params.id;
   let page = req.params.page;
-  let limit = req.params.limit;
+  let type = req.params.type;
+  let limit = 1;
   var subs = [];
 
-  const startIndex = (page - 1) * limit
-  const endIndex = page * limit
+  var startIndex = (page - 1) * limit
+  var endIndex = page * limit
 
   // Finding which SubReddits the Uid is subbed to
   Users.find({uid: user})
@@ -91,13 +92,21 @@ router.get('/user/feed/:id/:limit/:page', (req, res) => {
       subed.map(sub => subs.push(sub))
       // Uses `subs` array to look
       // for posts in that array
-      let perPage = 3
       Posts.find({subReddit: {'$in': subed} })
         .then((result) => {
-
-          const reultPosts = result.sort(sortHot).slice(startIndex, endIndex)
-
-          res.json(reultPosts)
+          switch(type) {
+            case 'hot':
+              res.json(result.sort(sortHot).splice(startIndex, endIndex))
+              break;
+            case 'new':
+              res.json(result.sort((a, b) => b.created - a.created))
+              break;
+            case 'top':
+              res.json(result.sort((a, b) => b.voteCount - a.voteCount))
+              break;
+            default:
+              res.json(result.sort(sortHot).splice(startIndex, endIndex))
+          }
         })
         .catch((error) => {
           console.log(error)
