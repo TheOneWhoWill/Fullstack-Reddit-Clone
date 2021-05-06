@@ -11,7 +11,7 @@ function CummunityItem(props) {
   const user = currentUser ? currentUser.uid : null;
   const destination = `r/${props.subHandle}`;
   const [joined, setJoined] = useState(null);
-  const [joinedSubs, setJoinedSubs] = useState([]);
+  const [joinedSubs, setJoinedSubs] = useState([props.joinedSubs]);
   const baseUserRequest = 'http://localhost:2000/user/';
 
   // I send a Axios Request to join a subreddit
@@ -22,7 +22,7 @@ function CummunityItem(props) {
     }
 
     await axios.post(`${baseUserRequest}join/${user}`, postReq)
-    .then(resonse => setJoined(resonse))
+    .then(resonse => userIsJoined(resonse.data.joined))
     // Displays a prompt to the user
     setPromptData(`Successfully joined r/${props.subHandle}`)
   }
@@ -35,9 +35,16 @@ function CummunityItem(props) {
     }
 
     await axios.post(`${baseUserRequest}leave/${user}`, postReq)
-    .then(resonse => setJoined(resonse))
+    .then(resonse => userIsJoined(resonse.data.joined))
+    //userIsJoined(result.data[0].joined)
     // Displays a prompt to the user
     setPromptData(`Successfully left r/${props.subHandle}`)
+  }
+
+  function userIsJoined(list) {
+    if (list.find((joinedUser) => joinedUser === props.subHandle)) {
+      setJoined(true);
+    } else setJoined(false);
   }
 
   async function fetchUserData() {
@@ -45,23 +52,18 @@ function CummunityItem(props) {
     // Trust me. The if statement is to
     // prevent Errors for people not logged in
     if(currentUser) {
-      await axios.get(`${baseUserRequest}${user}`).then(result => {
-        setJoinedSubs(result.data[0].joined)
-      })
+      await axios.get(`${baseUserRequest}${user}`)
+        .then(result => {
+          setJoinedSubs(result.data[0].joined)
+          userIsJoined(result.data[0].joined)
+        })
     }
-  }
-
-  function userIsJoined() {
-    if (joinedSubs.find((joinedUser) => joinedUser === props.subHandle)) {
-      setJoined(true);
-    } else setJoined(false);
   }
 
   useEffect(() => {
     fetchUserData()
-    userIsJoined()
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [joinedSubs])
+  }, [joined])
 
   return (
     <div className="cummunityItem">

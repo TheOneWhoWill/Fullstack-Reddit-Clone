@@ -78,7 +78,7 @@ router.get('/user/feed/:id/:page/:type', (req, res) => {
   let user = req.params.id;
   let page = req.params.page;
   let type = req.params.type;
-  let limit = 3;
+  let limit = 10;
   var subs = [];
 
   var startIndex = (page - 1) * limit

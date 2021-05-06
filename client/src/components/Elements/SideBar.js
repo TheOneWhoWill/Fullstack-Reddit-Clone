@@ -12,17 +12,16 @@ function SideBar() {
   const [subs, setSubs] = useState([]);
   const [joinedSubs, setJoined] = useState([]);
 
-  async function getUserData() {
-    if(currentUser) {
-      // This just feched user data
-      axios.get(`http://localhost:2000/user/${currentUser ? currentUser.uid : null}`)
-      .then(res => {
-        setJoined(res.data[0].joined);
-      })
-    }
-  }
-
   useEffect(() => {
+    async function getUserData() {
+      if(currentUser) {
+        // This just feched user data
+        axios.get(`http://localhost:2000/user/${currentUser ? currentUser.uid : null}`)
+          .then(res => {
+            setJoined(res.data[0].joined);
+          })
+      }
+    }
     axios.get('http://localhost:2000/community/trending')
       .then(res => {
         setSubs(res.data)
@@ -36,7 +35,6 @@ function SideBar() {
       // This just feched user data
       getUserData()
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -56,6 +54,7 @@ function SideBar() {
             return (
               <CummunityItem
                 joined={joinedSubs.includes(sub.SubredditHandle) ? true : false}
+                joinedSubs={joinedSubs}
                 image={sub.SubredditPicture}
                 subHandle={sub.SubredditHandle}
                 members={sub.members}

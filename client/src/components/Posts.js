@@ -35,6 +35,7 @@ const Posts = React.memo(() => {
   }
 
   useEffect(() => {
+    setPage(page + 1)
     axios.get(query)
       .then(res => {
         setPosts(prev => [...prev, ...res.data])
