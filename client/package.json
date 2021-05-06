@@ -13,11 +13,11 @@
     "node-sass": "^5.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-infinite-scroll-component": "^6.1.0",
     "react-lazyload": "^3.2.0",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
-    "react-waypoint": "^10.1.0",
     "uuid": "^8.3.2",
     "web-vitals": "^1.1.0"
   },

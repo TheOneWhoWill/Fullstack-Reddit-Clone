@@ -1,9 +1,9 @@
 import { faPoll, faLink, faFire, faCertificate, faSort } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import { useAuth } from '../contexts/AuthContext';
 import React, { useEffect, useState } from'react';
 import { useHistory } from 'react-router-dom';
-import { Waypoint } from 'react-waypoint';
 import axios from 'axios';
 import Post from './Post';
 
@@ -14,12 +14,24 @@ const Posts = React.memo(() => {
   const [sort, setSort] = useState('hot');
   const [page, setPage] = useState(1);
   const [posts, setPosts] = useState([]);
+  const [ItemsLeft, setItemsLeft] = useState(true)
 
   const profilePicture = currentUser ? currentUser.photoURL : null;
   let query = currentUser ? `http://localhost:2000/posts/user/feed/${currentUser.uid}/${page}/${sort}` : `http://localhost:2000/posts`
 
   async function InfinityScroll() {
     setPage(page + 1)
+    axios.get(query)
+      .then(res => {
+        if(res.data) {
+          setPosts([...posts, res.data]);
+        } else {
+          setItemsLeft(false);
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
 
   useEffect(() => {
@@ -31,7 +43,7 @@ const Posts = React.memo(() => {
         console.log(err)
       })
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query]);
+  }, []);
 
   return (
     <div className="Posts">
@@ -80,12 +92,16 @@ const Posts = React.memo(() => {
           Top
         </div>
       </div>
-      <div>
-        {posts.map((post, index) => {
+      <InfiniteScroll
+        dataLength={posts.length}
+        next={InfinityScroll}
+        hasMore={ItemsLeft}
+        loader={<h3>Loading...</h3>}
+      >
+        {posts.map(post => {
           return <Post post={post} key={post._id} />
         })}
-      </div>
-      <button onClick={() => InfinityScroll()}>Load More...</button>
+      </InfiniteScroll>
     </div>
   );
 })
