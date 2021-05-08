@@ -6,14 +6,14 @@ import { useParams } from 'react-router-dom';
 import React, { useState, useEffect } from'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPoll, faLink, faFire, faCertificate, faSort } from '@fortawesome/free-solid-svg-icons'
+import { faFire, faCertificate, faSort } from '@fortawesome/free-solid-svg-icons'
 
 function SubReddit() {
   const subID = useParams().sub;
   const { currentUser } = useAuth();
   const [posts, setPosts] = useState([]);
   const [subData, setSubData] = useState();
-  const [joined, setJoined] = useState(null);
+  const [joined] = useState(null);
   const user = currentUser ? currentUser.uid : null;
 
   function query(sort) {
@@ -45,6 +45,7 @@ function SubReddit() {
       .then(result => {
         setPosts(result.data)
       })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [joined])
 
   return (

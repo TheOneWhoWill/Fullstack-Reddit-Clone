@@ -25,7 +25,7 @@ function All() {
   useEffect(() => {
     axios.get('http://localhost:2000/community/')
     .then(res => setSubs(res.data))
-  })
+  }, [])
   return (
     <div class="All">
       <div className="AllBanner">
