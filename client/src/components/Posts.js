@@ -20,7 +20,6 @@ const Posts = React.memo(() => {
   }
 
   async function changeSort(newSort) {
-    setPage(1)
     axios.get(query(newSort))
       .then(res => {
         setPosts(res.data);

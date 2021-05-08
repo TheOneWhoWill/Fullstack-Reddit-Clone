@@ -49,11 +49,29 @@ router.get('/:id', (req, res) => {
     })
 })
 // Find one by Sub
-router.get('/sub/:id', (req, res) => {
-  var id = req.params.id;
+router.get('/sub/:id/:type', (req, res) => {
+
+  let id = req.params.id;
+  let type = req.params.type;
+
   Posts.find({subReddit: id})
     .then((result) => {
-      res.json(result.sort(sortHot))
+      switch(type) {
+        case 'hot':
+          res.json(result.sort(sortHot))
+          console.log('hot')
+          break;
+        case 'new':
+          res.json(result.sort((a, b) => b.created - a.created))
+          console.log('new')
+          break;
+        case 'top':
+          res.json(result.sort((a, b) => b.voteCount - a.voteCount))
+          console.log('top')
+          break;
+        default:
+          res.json(result.sort(sortHot))
+      }
     })
     .catch((error) => {
       console.log(error)

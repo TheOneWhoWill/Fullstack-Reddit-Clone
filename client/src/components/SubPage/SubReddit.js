@@ -5,6 +5,8 @@ import SubSidebar from './SubSidebar';
 import { useParams } from 'react-router-dom';
 import React, { useState, useEffect } from'react';
 import { useAuth } from '../../contexts/AuthContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPoll, faLink, faFire, faCertificate, faSort } from '@fortawesome/free-solid-svg-icons'
 
 function SubReddit() {
   const subID = useParams().sub;
@@ -13,28 +15,36 @@ function SubReddit() {
   const [subData, setSubData] = useState();
   const [joined, setJoined] = useState(null);
   const user = currentUser ? currentUser.uid : null;
-  const baseUserRequest = 'http://localhost:2000/user/';
+
+  function query(sort) {
+    return currentUser ? `http://localhost:2000/posts/sub/${subID}/${sort}` : `http://localhost:2000/posts`
+  }
 
   async function fetchSubData() {
     axios.get(`http://localhost:2000/community/${subID}`)
       .then(result => {
         setSubData(result.data[0])
       })
-    axios.get(`http://localhost:2000/posts/sub/${subID}`)
-      .then(result => {
-        setPosts(result.data)
-      })
   }
 
-  function userIsJoined(list) {
-    if (list.find((joinedUser) => joinedUser === subID)) {
-      setJoined(true);
-    } else setJoined(false);
+  async function changeSort(newSort) {
+    console.log(query(newSort))
+    axios.get(query(newSort))
+      .then(res => {
+        setPosts(res.data);
+        console.log(res.data)
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
 
   useEffect(() => {
     fetchSubData()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    axios.get(query('hot'))
+      .then(result => {
+        setPosts(result.data)
+      })
   }, [joined])
 
   return (
@@ -49,6 +59,29 @@ function SubReddit() {
       /> : <></>}
       <div className="SubPosts">
         <div className="Posts">
+          <div className="Post SortBy">
+            <div className="SortByTab" onClick={() => changeSort('hot')}>
+              <FontAwesomeIcon
+                className="CreatePostIcon"
+                icon={faFire}
+              />
+              Hot
+            </div>
+            <div className="SortByTab" onClick={() => changeSort('new')}>
+              <FontAwesomeIcon
+                className="CreatePostIcon"
+                icon={faCertificate}
+              />
+              New
+            </div>
+            <div className="SortByTab" onClick={() => changeSort('top')}>
+              <FontAwesomeIcon
+                className="CreatePostIcon"
+                icon={faSort}
+              />
+              Top
+            </div>
+          </div>
           {posts.map(post => {
             return <Post post={post} key={post._id} />
           })}
