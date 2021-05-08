@@ -43,6 +43,7 @@ function All() {
           {subs.map(sub => {
             return (
               <Cummunity
+                key={sub._id}
                 members={sub.members}
                 img={sub.SubredditPicture}
                 subHandle={sub.SubredditHandle}

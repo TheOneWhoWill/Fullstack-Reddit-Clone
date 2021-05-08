@@ -1,6 +1,5 @@
 import { faPoll, faLink, faFire, faCertificate, faSort } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { useAuth } from '../contexts/AuthContext';
 import React, { useEffect, useState } from'react';
 import { useHistory } from 'react-router-dom';
@@ -10,24 +9,21 @@ import Post from './Post';
 const Posts = React.memo(() => {
 
   const history = useHistory();
+  let [page, setPage] = useState(1);
   const { currentUser } = useAuth();
-  const [sort, setSort] = useState('hot');
-  const [page, setPage] = useState(1);
   const [posts, setPosts] = useState([]);
-  const [ItemsLeft, setItemsLeft] = useState(true)
 
   const profilePicture = currentUser ? currentUser.photoURL : null;
-  let query = currentUser ? `http://localhost:2000/posts/user/feed/${currentUser.uid}/${page}/${sort}` : `http://localhost:2000/posts`
 
-  async function InfinityScroll() {
-    setPage(page + 1)
-    axios.get(query)
+  function query(sort) {
+    return currentUser ? `http://localhost:2000/posts/user/feed/${currentUser.uid}/${sort}` : `http://localhost:2000/posts`
+  }
+
+  async function changeSort(newSort) {
+    setPage(1)
+    axios.get(query(newSort))
       .then(res => {
-        if(res.data) {
-          setPosts([...posts, res.data]);
-        } else {
-          setItemsLeft(false);
-        }
+        setPosts(res.data);
       })
       .catch(err => {
         console.log(err)
@@ -36,7 +32,7 @@ const Posts = React.memo(() => {
 
   useEffect(() => {
     setPage(page + 1)
-    axios.get(query)
+    axios.get(query('hot'))
       .then(res => {
         setPosts(prev => [...prev, ...res.data])
       })
@@ -71,21 +67,21 @@ const Posts = React.memo(() => {
         />
       </div>
       <div className="Post SortBy">
-        <div className="SortByTab" onClick={() => setSort('hot')}>
+        <div className="SortByTab" onClick={() => changeSort('hot')}>
           <FontAwesomeIcon
             className="CreatePostIcon"
             icon={faFire}
           />
           Hot
         </div>
-        <div className="SortByTab" onClick={() => setSort('new')}>
+        <div className="SortByTab" onClick={() => changeSort('new')}>
           <FontAwesomeIcon
             className="CreatePostIcon"
             icon={faCertificate}
           />
           New
         </div>
-        <div className="SortByTab" onClick={() => setSort('top')}>
+        <div className="SortByTab" onClick={() => changeSort('top')}>
           <FontAwesomeIcon
             className="CreatePostIcon"
             icon={faSort}
@@ -93,16 +89,9 @@ const Posts = React.memo(() => {
           Top
         </div>
       </div>
-      <InfiniteScroll
-        dataLength={posts.length}
-        next={InfinityScroll}
-        hasMore={ItemsLeft}
-        loader={<h3>Loading...</h3>}
-      >
-        {posts.map(post => {
-          return <Post post={post} key={post._id} />
-        })}
-      </InfiniteScroll>
+      {posts.map(post => {
+        return <Post post={post} key={post._id} />
+      })}
     </div>
   );
 })

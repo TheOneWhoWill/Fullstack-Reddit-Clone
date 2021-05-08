@@ -12,41 +12,30 @@ function SubReddit() {
   const [posts, setPosts] = useState([]);
   const [subData, setSubData] = useState();
   const [joined, setJoined] = useState(null);
-  const [joinedSubs, setJoinedSubs] = useState([]);
   const user = currentUser ? currentUser.uid : null;
   const baseUserRequest = 'http://localhost:2000/user/';
-  const subHandle = subData ? subData.SubredditHandle : '';
 
-  async function fetchUserData() {
-    // The ${baseUserRequest}${user} bit looks weird but it works
-    // Trust me
-    axios.get(`${baseUserRequest}${user}`).then(result => {
-      setJoinedSubs(result.data[0].joined)
-    })
+  async function fetchSubData() {
+    axios.get(`http://localhost:2000/community/${subID}`)
+      .then(result => {
+        setSubData(result.data[0])
+      })
+    axios.get(`http://localhost:2000/posts/sub/${subID}`)
+      .then(result => {
+        setPosts(result.data)
+      })
   }
 
-  function userIsJoined() {
-    if (joinedSubs.find((joinedUser) => joinedUser === subHandle)) {
+  function userIsJoined(list) {
+    if (list.find((joinedUser) => joinedUser === subID)) {
       setJoined(true);
     } else setJoined(false);
   }
 
   useEffect(() => {
-    axios.get(`http://localhost:2000/community/${subID}`).then(result => {
-      setSubData(result.data[0])
-      console.log(result.data[0])
-    })
-    axios.get(`http://localhost:2000/posts/sub/${subID}`)
-      .then(res => {
-        setPosts(res.data)
-      })
-      .catch(err => {
-        console.log(err)
-      })
-    fetchUserData();
-    userIsJoined();
+    fetchSubData()
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [joinedSubs]);
+  }, [joined])
 
   return (
     <div className="SubReddit">

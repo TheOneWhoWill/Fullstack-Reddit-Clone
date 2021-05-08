@@ -72,17 +72,12 @@ router.get('/user/:id', (req, res) => {
 })
 // Getting All for One User
 // This is all the subs the user joined
-router.get('/user/feed/:id/:page/:type', (req, res) => {
+router.get('/user/feed/:id/:type', (req, res) => {
 
   // Gets uid of User
   let user = req.params.id;
-  let page = req.params.page;
   let type = req.params.type;
-  let limit = 10;
   var subs = [];
-
-  var startIndex = (page - 1) * limit
-  var endIndex = page * limit
 
   // Finding which SubReddits the Uid is subbed to
   Users.find({uid: user})
@@ -96,7 +91,7 @@ router.get('/user/feed/:id/:page/:type', (req, res) => {
         .then((result) => {
           switch(type) {
             case 'hot':
-              res.json(result.sort(sortHot).splice(startIndex, endIndex))
+              res.json(result.sort(sortHot))
               break;
             case 'new':
               res.json(result.sort((a, b) => b.created - a.created))
@@ -105,7 +100,7 @@ router.get('/user/feed/:id/:page/:type', (req, res) => {
               res.json(result.sort((a, b) => b.voteCount - a.voteCount))
               break;
             default:
-              res.json(result.sort(sortHot).splice(startIndex, endIndex))
+              res.json(result.sort(sortHot))
           }
         })
         .catch((error) => {

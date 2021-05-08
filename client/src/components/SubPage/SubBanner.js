@@ -1,15 +1,19 @@
+import { useAuth } from '../../contexts/AuthContext';
+import { usePrompt } from '../../contexts/PromptContext';
 import React, { useState, useEffect } from'react';
 import axios from 'axios';
 
 function SubBanner(props) {
 
   const user = props.user;
-  const joinedProp = props.joined;
-  const [joined, setJoined] = useState(joinedProp);
+  const { currentUser } = useAuth();
+  const { setPromptData } = usePrompt();
+  const [joined, setJoined] = useState(props.joined);
   const [joinedSubs, setJoinedSubs] = useState([]);
   const baseUserRequest = 'http://localhost:2000/user/';
   const subHandle = props.handle ? props.handle : null;
 
+  // I send a Axios Request to join a subreddit
   async function joinSub() {
     
     const postReq = {
@@ -17,7 +21,9 @@ function SubBanner(props) {
     }
 
     await axios.post(`${baseUserRequest}join/${user}`, postReq)
-    .then(resonse => setJoined(resonse))
+    .then(resonse => userIsJoined(resonse.data.joined))
+    // Displays a prompt to the user
+    setPromptData(`Successfully joined r/${subHandle}`)
   }
 
   // I send a Axios Request to leave a subreddit
@@ -28,28 +34,34 @@ function SubBanner(props) {
     }
 
     await axios.post(`${baseUserRequest}leave/${user}`, postReq)
-    .then(resonse => setJoined(resonse))
+    .then(resonse => userIsJoined(resonse.data.joined))
+    //userIsJoined(result.data[0].joined)
+    // Displays a prompt to the user
+    setPromptData(`Successfully left r/${subHandle}`)
   }
 
   async function fetchUserData() {
     // The ${baseUserRequest}${user} bit looks weird but it works
-    // Trust me
-    axios.get(`${baseUserRequest}${user}`).then(result => {
-      setJoinedSubs(result.data[0].joined)
-    })
+    // Trust me. The if statement is to
+    // prevent Errors for people not logged in
+    if(currentUser) {
+      await axios.get(`${baseUserRequest}${user}`)
+        .then(result => {
+          userIsJoined(result.data[0].joined)
+        })
+    }
   }
 
-  function userIsJoined() {
-    if (joinedSubs.find((joinedUser) => joinedUser === subHandle)) {
+  function userIsJoined(list) {
+    if (list.find((joinedUser) => joinedUser === subHandle)) {
       setJoined(true);
     } else setJoined(false);
   }
 
   useEffect(() => {
-    fetchUserData();
-    userIsJoined();
+    fetchUserData()
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [joinedSubs]);
+  }, [joined])
 
   return (
     <div className="SubBanner">
