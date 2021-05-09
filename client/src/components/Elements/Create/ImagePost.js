@@ -1,16 +1,17 @@
-import '../../firebase'
+import '../../../firebase'
 import axios from 'axios'
 import 'firebase/storage';
 import firebase from 'firebase'
 import { v4 as uuidv4 } from 'uuid';
 import { useHistory } from 'react-router-dom';
 import React, { useRef, useState } from'react';
-import { useAuth } from '../../contexts/AuthContext';
-import { usePrompt } from '../../contexts/PromptContext';
+import { useAuth } from '../../../contexts/AuthContext';
+import { usePrompt } from '../../../contexts/PromptContext';
 import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-function Create() {
+function ImagePost(props) {
+
   const { setPromptData } = usePrompt();
   const history = useHistory()
   const { currentUser } = useAuth()
@@ -61,24 +62,22 @@ function Create() {
       }
     })
   }
+
   return (
-    <div class="Form Create">
-      <div class="inputForm inputCreate">
-        <h2>Create</h2>
-        <div className="formInput">
-          <input ref={titleRef} type="text" placeholder="Title"/>
-        </div>
-        <div className="formInput">
-          <input ref={subredditRef} type="text" placeholder="Subreddit"/>
-        </div>
-        <label className="formUpload">
-          {uploaded ? <img src={imgURL} alt="" /> : <><p>{fileRef}</p><FontAwesomeIcon icon={faCloudUploadAlt}/></>}
-          <input ref={uploadRef} onChange={uploadHandler} type="file" className="formUploadText" />
-        </label>
-        <button onClick={postHandler} className="formButton">Create Post</button>
+    <div class="inputForm inputCreate">
+      <div className="formInput">
+        <input ref={titleRef} type="text" placeholder="Title"/>
       </div>
+      <div className="formInput">
+        <input ref={subredditRef} type="text" placeholder="Subreddit"/>
+      </div>
+      <label className="formUpload">
+        {uploaded ? <img src={imgURL} alt="" /> : <><p>{fileRef}</p><FontAwesomeIcon icon={faCloudUploadAlt}/></>}
+        <input ref={uploadRef} onChange={uploadHandler} type="file" className="formUploadText" />
+      </label>
+      <button onClick={postHandler} className="formButton">Create Post</button>
     </div>
-  );
+  )
 }
 
-export default Create;
+export default ImagePost
