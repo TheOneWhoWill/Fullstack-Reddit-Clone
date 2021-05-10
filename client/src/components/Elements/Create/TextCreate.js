@@ -1,20 +1,17 @@
-import React, { useRef } from 'react'
+import React from 'react'
 
-function URLPost() {
-
-  const titleRef = useRef();
-
+function TextCreate() {
   return (
     <div className='inputForm inputCreateLink'>
       <div className="formInput">
-        <input ref={titleRef} type="text" placeholder="Title"/>
+        <input type="text" placeholder="Title"/>
       </div>
       <div className="formTextarea">
-        <textarea type="url" placeholder="Text (optional)"/>
+        <textarea type="text" placeholder="Text (optional)"/>
       </div>
       <button className="formButton">Create Post</button>
     </div>
   );
 }
 
-export default URLPost;
+export default TextCreate;

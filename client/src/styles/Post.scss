@@ -146,6 +146,44 @@
   }
 }
 
+.linkContainer {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  a {
+    max-width: 230px;
+    font-size: 17px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .linkPlaceholder {
+    width: 90px;
+    display: flex;
+    height: 90px;
+    color: white;
+    font-size: 25px;
+    margin-right: 5px;
+    border-radius: 4px;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid white;
+    .linkTinySqr {
+      right: 0;
+      bottom: 0;
+      font-size: 13px;
+      color: #1a1a1b;
+      border-radius: 4px;
+      position: absolute;
+      background-color: white;
+      border: 3px solid white;
+      transform: translateX(2px) translateY(2px);
+    }
+  }
+}
+
+
 .notLiked {
   color: #818384;
 }

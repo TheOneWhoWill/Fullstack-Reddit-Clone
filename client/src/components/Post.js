@@ -83,8 +83,14 @@ const Post = React.memo((props) => {
         return (
           postData.link ?
             <LazyLoad height={200} offset={50}>
-              <div className="linkPlaceholder" title={`${postData.link}`}>
-                <FontAwesomeIcon className="postBottomIcon" icon={faLink} />
+              <div className="linkContainer">
+                <a href={`${postData.link}`}>{postData.link}</a>
+                <div className="linkPlaceholder" title={`${postData.link}`} onClick={() => history.push(postData.link)}>
+                  <FontAwesomeIcon icon={faLink} />
+                  <div className="linkTinySqr">
+                    <FontAwesomeIcon icon={faLink} />
+                  </div>
+                </div>
               </div>
             </LazyLoad>
           : <></>
