@@ -5,13 +5,14 @@ import deletePost from './functions/deletePost';
 import { useAuth } from '../contexts/AuthContext';
 import React, { useState, useEffect } from'react';
 import { usePrompt } from '../contexts/PromptContext';
-import { faEllipsisV, faShareAlt, faCommentAlt } from '@fortawesome/free-solid-svg-icons'
+import { faEllipsisV, faShareAlt, faCommentAlt, faLink } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const Post = React.memo((props) => {
   const [likeCount, setLikeCount] = useState(null);
-  const [likes, setLikes] = useState(props.post.voted)
+  const [likes, setLikes] = useState(props.post.voted);
   const [optionsMenu, setOptionsMenu] = useState(true);
+  const [postOption, setPostOption] = useState();
   const [postData, setPostData] = useState();
   const [liked, setLiked] = useState(false);
   const { setPromptData } = usePrompt();
@@ -68,15 +69,47 @@ const Post = React.memo((props) => {
     setPromptData('Copied URL into Clipboard');
   }
 
+  function CurrentOption() {
+    switch(postOption) {
+      case 'image':
+        return (
+          postData.imageURL ?
+            <LazyLoad height={200} offset={50}>
+              <img src={postData.imageURL} alt="postImage"/>
+            </LazyLoad>
+          : <></>
+        )
+      case 'link':
+        return (
+          postData.link ?
+            <LazyLoad height={200} offset={50}>
+              <div className="linkPlaceholder" title={`${postData.link}`}>
+                <FontAwesomeIcon className="postBottomIcon" icon={faLink} />
+              </div>
+            </LazyLoad>
+          : <></>
+        )
+      default:
+        return <></>
+    }
+  }
+
   useEffect(() => {
-    axios.get(`http://localhost:2000/posts/one/${postID}`).then(result => {
+    axios.get(`http://localhost:2000/posts/one/${postID}`)
+    .then(result => {
       setPostData(result.data)
+      if(postData !== undefined && postData.imageURL) {
+        setPostOption('image');
+      } else if (postData !== undefined && postData.link) {
+        setPostOption('link')
+      }
       setLikes(result.data.voted)
       if (user && likes.find((like) => like === user)) {
         setLiked(true);
       } else setLiked(false);
       setLikeCount(result.data.voteCount)
     })
+    //setPostOption('link')
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [postID, liked, likeCount, user]);
 
@@ -108,7 +141,7 @@ const Post = React.memo((props) => {
           </div>
         </div>
         <div className="postImage" onClick={() => history.push(`/post/${postID}`)}>
-          {postData ? <LazyLoad height={200} offset={50}><img src={postData.imageURL} alt="postImage"/></LazyLoad> : <></>}
+          <CurrentOption />
         </div>
         <div className="bottomPostContainer">
           <button className="postBottomButtons" onClick={() => history.push(`/post/${postID}`)}>

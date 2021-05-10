@@ -1,4 +1,7 @@
+import URLPost from './URLPost';
 import ImagePost from './ImagePost';
+import TextCreate from './TextCreate';
+import { Redirect } from 'react-router';
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage, faCommentAlt, faLink } from '@fortawesome/free-solid-svg-icons';
@@ -11,8 +14,12 @@ function Create() {
     switch(createOption) {
       case 'image':
         return <ImagePost />
+      case 'link':
+        return <URLPost />
+      case 'post':
+        return <TextCreate />
       default:
-        return <button>YUR</button>
+        return <Redirect to="/create/cummunity"/>
     }
   }
 
@@ -32,7 +39,7 @@ function Create() {
           Link
         </button>
       </div>
-      <div class="inputForm inputCreate">
+      <div class="inputForm">
         <CurrentOption />
       </div>
     </div>
