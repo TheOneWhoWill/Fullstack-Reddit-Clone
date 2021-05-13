@@ -154,6 +154,19 @@ router.post('/create/link', (req, res) => {
   Posts.create(userPostRequest)
 })
 
+router.post('/create/text', (req, res) => {
+  const userPostRequest = {
+    user: req.body.user,
+    voteCount: req.body.voteCount,
+    voted: [req.body.voted],
+    subReddit: req.body.subReddit,
+    title: req.body.title,
+    text: req.body.text,
+    created: Math.floor(Date.now() / 1000)
+  }
+  Posts.create(userPostRequest)
+})
+
 router.delete('/delete/:id', (req, res) => {
   const voter = req.body.voter;
   const id = req.params.id;

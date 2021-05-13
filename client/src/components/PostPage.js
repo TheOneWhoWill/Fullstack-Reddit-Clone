@@ -10,16 +10,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const PostPage = React.memo((props) => {
   const [optionsMenu, setOptionsMenu] = useState(true);
-  const [liked, setLiked] = useState(false);
   const { currentUser } = useAuth();
-  const [likeCount, setLikeCount] = useState(null);
-  const [postData, setPostData] = useState();
-  const [comments, setComments] = useState([]);
-  const [likes, setLikes] = useState(['eee'])
-  const { setPromptData } = usePrompt();
-  const history = useHistory();
   const user = currentUser ? currentUser.uid : null;
+  const [likeCount, setLikeCount] = useState(null);
+  const [postOption, setPostOption] = useState();
+  const [comments, setComments] = useState([]);
+  const [postData, setPostData] = useState();
+  const [likes, setLikes] = useState(['eee']);
+  const [liked, setLiked] = useState(false);
+  const { setPromptData } = usePrompt();
   const postID = useParams().id;
+  const history = useHistory();
   const commentRef = useRef();
 
   async function upvotePost() {
@@ -77,6 +78,25 @@ const PostPage = React.memo((props) => {
     .then(setPromptData('Posted Comment'))
   }
 
+  function CurrentOption() {
+    switch(postOption) {
+      case 'image':
+        return (
+          postData.imageURL && <img src={postData.imageURL} alt="postImage"/>
+        )
+      case 'link':
+        return (
+          postData.link && <a href={postData.link}>{postData.link}</a>
+        )
+      case 'post':
+        return (
+          postData.text && <p>{postData.text}</p>
+        )
+      default:
+        return <></>
+    }
+  }
+
   useEffect(() => {
     axios.get(`http://localhost:2000/comments/from/${postID}`)
       .then((results) => {
@@ -93,6 +113,13 @@ const PostPage = React.memo((props) => {
       } else setLiked(false);
       setLikeCount(result.data.voteCount)
     })
+    if(postData !== undefined && postData.imageURL) {
+      setPostOption('image');
+    } else if (postData !== undefined && postData.link) {
+      setPostOption('link')
+    } else if (postData !== undefined && postData.text) {
+      setPostOption('post')
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [postID, liked, likeCount, user]);
 
@@ -125,7 +152,7 @@ const PostPage = React.memo((props) => {
             </div>
           </div>
           <div className="postImage">
-            {postData ? <img src={postData.imageURL} alt="postImage"/> : <></>}
+            {postData && <CurrentOption />}
           </div>
         </div>
       </div>

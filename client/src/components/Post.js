@@ -75,7 +75,7 @@ const Post = React.memo((props) => {
         return (
           postData.imageURL ?
             <LazyLoad height={200} offset={50}>
-              <img src={postData.imageURL} alt="postImage"/>
+              <img src={postData.imageURL} alt="postImage" onClick={() => history.push(`/post/${postID}`)}/>
             </LazyLoad>
           : <></>
         )
@@ -84,7 +84,7 @@ const Post = React.memo((props) => {
           postData.link ?
             <LazyLoad height={200} offset={50}>
               <div className="linkContainer">
-                <a href={`${postData.link}`} target="_blank">{postData.link}</a>
+                <a href={`${postData.link}`} rel="noreferrer" target="_blank">{postData.link}</a>
                 <div className="linkPlaceholder" title={`${postData.link}`} onClick={() => history.push(postData.link)}>
                   <FontAwesomeIcon icon={faLink} />
                   <div className="linkTinySqr">
@@ -94,6 +94,10 @@ const Post = React.memo((props) => {
               </div>
             </LazyLoad>
           : <></>
+        )
+      case 'post':
+        return (
+          <></>
         )
       default:
         return <></>
@@ -108,6 +112,8 @@ const Post = React.memo((props) => {
         setPostOption('image');
       } else if (postData !== undefined && postData.link) {
         setPostOption('link')
+      } else if (postData !== undefined && postData.text) {
+        setPostOption('post')
       }
       setLikes(result.data.voted)
       if (user && likes.find((like) => like === user)) {
@@ -127,7 +133,7 @@ const Post = React.memo((props) => {
             {liked ? <button className="liked" onClick={() => downvotePost(postData)}>+</button> : <button className="notLiked" onClick={() => upvotePost(postData)}>+</button>}
             {likeCount ? <p>{likeCount}</p> : <p>0</p>}
           </div>
-          <div className="topContainer">
+          <div className="topContainer" onClick={() => history.push(`/post/${postID}`)}>
             <div className="top">
               {postData ? <h4>Posted by {postData.user} on r/{postData.subReddit}</h4> : <></>}
             </div>
@@ -146,7 +152,7 @@ const Post = React.memo((props) => {
             }
           </div>
         </div>
-        <div className="postImage" onClick={() => history.push(`/post/${postID}`)}>
+        <div className="postImage">
           <CurrentOption />
         </div>
         <div className="bottomPostContainer">

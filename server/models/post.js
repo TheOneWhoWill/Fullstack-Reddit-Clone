@@ -7,6 +7,7 @@ const postSchema = new Schema({
   voted: Array,
   subReddit: String,
   link: String,
+  text: String,
   title: String,
   imageURL: String,
   created: Number
