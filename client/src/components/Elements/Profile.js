@@ -10,7 +10,7 @@ const Profile = React.memo(() => {
   const [posts, setPosts] = useState([]);
   const { currentUser, resetPassword } = useAuth();
   const [promptMenu, setPromptMenu] = useState(true);
-  const [axiosLink] = useState(currentUser ? `http://localhost:2000/posts/user/${currentUser.displayName.substring(2)}` : null);
+  const [axiosLink] = useState(currentUser ? `${process.env.REACT_APP_BASE}/posts/user/${currentUser.displayName.substring(2)}` : null);
 
   useEffect(() => {
     axios.get(axiosLink)

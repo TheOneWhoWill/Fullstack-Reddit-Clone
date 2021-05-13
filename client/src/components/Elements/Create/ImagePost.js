@@ -43,7 +43,7 @@ function ImagePost(props) {
     e.preventDefault()
 
     const subReddit = subredditRef.current.value;
-    await axios.get(`http://localhost:2000/community/exists/${subReddit}`)
+    await axios.get(`${process.env.REACT_APP_BASE}/community/exists/${subReddit}`)
     .then(res => {
       if(res.data) {
         var currentPost = {
@@ -55,7 +55,7 @@ function ImagePost(props) {
           voteCount: 1,
         }
   
-        axios.post('http://localhost:2000/posts/create', currentPost)
+        axios.post(`${process.env.REACT_APP_BASE}/posts/create`, currentPost)
         postSuccessful()
       } else {
         setPromptData('Subreddit not Found')

@@ -16,13 +16,13 @@ function SideBar() {
     async function getUserData() {
       if(currentUser) {
         // This just feched user data
-        axios.get(`http://localhost:2000/user/${currentUser ? currentUser.uid : null}`)
+        axios.get(`${process.env.REACT_APP_BASE}/user/${currentUser ? currentUser.uid : null}`)
           .then(res => {
             setJoined(res.data[0].joined);
           })
       }
     }
-    axios.get('http://localhost:2000/community/trending')
+    axios.get(`${process.env.REACT_APP_BASE}/community/trending`)
       .then(res => {
         setSubs(res.data)
       })

@@ -29,7 +29,7 @@ function Comment(props) {
       user
     }
     if(currentUser !== null) {
-      axios.post(`http://localhost:2000/comments/upvote/${commentID}`, postReq).then(res => {
+      axios.post(`${process.env.REACT_APP_BASE}/comments/upvote/${commentID}`, postReq).then(res => {
         if(res.data.code === 500) {
           alert(res.data.msg)
         }
@@ -50,7 +50,7 @@ function Comment(props) {
       user
     }
     if(currentUser !== null) {
-      axios.post(`http://localhost:2000/comments/downvote/${commentID}`, postReq).then(res => {
+      axios.post(`${process.env.REACT_APP_BASE}/comments/downvote/${commentID}`, postReq).then(res => {
         if(res.data.code === 500) {
           alert(res.data.msg)
         }
@@ -67,7 +67,7 @@ function Comment(props) {
   }
 
   useEffect(() => {
-    axios.get(`http://localhost:2000/comments/one/${commentID}`).then(result => {
+    axios.get(`${process.env.REACT_APP_BASE}/comments/one/${commentID}`).then(result => {
       setCommentData(result.data)
       setLikes(result.data.voted)
       if (user && likes.find((like) => like === user)) {

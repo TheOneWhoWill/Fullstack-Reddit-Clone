@@ -43,7 +43,7 @@ function CreateSubreddit() {
       mod: currentUser.uid
     }
 
-    await axios.post('http://localhost:2000/community/create', currentSub)
+    await axios.post(`${process.env.REACT_APP_BASE}/community/create`, currentSub)
     .then(history.push('/'))
   }
   return (

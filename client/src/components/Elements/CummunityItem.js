@@ -12,7 +12,7 @@ function CummunityItem(props) {
   const destination = `r/${props.subHandle}`;
   const [joined, setJoined] = useState(null);
   const [joinedSubs, setJoinedSubs] = useState([props.joinedSubs]);
-  const baseUserRequest = 'http://localhost:2000/user/';
+  const baseUserRequest = `${process.env.REACT_APP_BASE}/user/`;
 
   // I send a Axios Request to join a subreddit
   async function joinSub() {

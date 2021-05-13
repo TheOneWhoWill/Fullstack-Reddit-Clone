@@ -5,7 +5,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { usePrompt } from '../contexts/PromptContext';
 import { useHistory, useParams } from 'react-router-dom';
 import React, { useState, useEffect, useRef } from'react';
-import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
+import { faEllipsisV, faLink } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const PostPage = React.memo((props) => {
@@ -28,7 +28,7 @@ const PostPage = React.memo((props) => {
     var postReq = {
       voter
     }
-    axios.post(`http://localhost:2000/posts/upvote/${postID}`, postReq).then(res => {
+    axios.post(`${process.env.REACT_APP_BASE}/posts/upvote/${postID}`, postReq).then(res => {
       if(res.data.code === 500) {
         alert(res.data.msg)
       }
@@ -44,7 +44,7 @@ const PostPage = React.memo((props) => {
     var postReq = {
       voter: currentUser.uid
     }
-    axios.post(`http://localhost:2000/posts/downvote/${postID}`, postReq).then(res => {
+    axios.post(`${process.env.REACT_APP_BASE}/posts/downvote/${postID}`, postReq).then(res => {
       if(res.data.code === 500) {
         alert(res.data.msg)
       }
@@ -74,7 +74,7 @@ const PostPage = React.memo((props) => {
       commentText: commentRef.current.value,
     }
     commentRef.current.value = '';
-    await axios.post('http://localhost:2000/comments/create', currentComment)
+    await axios.post(`${process.env.REACT_APP_BASE}/comments/create`, currentComment)
     .then(setPromptData('Posted Comment'))
   }
 
@@ -86,11 +86,20 @@ const PostPage = React.memo((props) => {
         )
       case 'link':
         return (
-          postData.link && <a href={postData.link}>{postData.link}</a>
+          postData.link && 
+          <div title={postData.link} className="linkContainer">
+            <a href={postData.link} rel="noreferrer" target="_blank">{postData.link}</a>
+            <a className="linkPlaceholder" href={postData.link} rel="noreferrer" target="_blank">
+              <FontAwesomeIcon icon={faLink} />
+              <div className="linkTinySqr">
+                <FontAwesomeIcon icon={faLink} />
+              </div>
+            </a>
+          </div>
         )
       case 'post':
         return (
-          postData.text && <p>{postData.text}</p>
+          postData.text && <p className="postText">{postData.text}</p>
         )
       default:
         return <></>
@@ -98,14 +107,14 @@ const PostPage = React.memo((props) => {
   }
 
   useEffect(() => {
-    axios.get(`http://localhost:2000/comments/from/${postID}`)
+    axios.get(`${process.env.REACT_APP_BASE}/comments/from/${postID}`)
       .then((results) => {
         setComments(results.data)
       })
       .catch(err => {
         console.log(err)
       })
-    axios.get(`http://localhost:2000/posts/one/${postID}`).then(result => {
+    axios.get(`${process.env.REACT_APP_BASE}/posts/one/${postID}`).then(result => {
       setPostData(result.data)
       setLikes(result.data.voted)
       if (user && likes.find((like) => like === user)) {

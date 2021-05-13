@@ -18,7 +18,7 @@ function URLPost() {
       voted: currentUser.uid,
       voteCount: 1,
     }
-    axios.post('http://localhost:2000/posts/create/link', currentPost)
+    axios.post(`${process.env.REACT_APP_BASE}/posts/create/link`, currentPost)
   }
 
   return (

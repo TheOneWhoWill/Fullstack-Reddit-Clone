@@ -17,11 +17,11 @@ function SubReddit() {
   const user = currentUser ? currentUser.uid : null;
 
   function query(sort) {
-    return currentUser ? `http://localhost:2000/posts/sub/${subID}/${sort}` : `http://localhost:2000/posts`
+    return currentUser ? `${process.env.REACT_APP_BASE}/posts/sub/${subID}/${sort}` : `${process.env.REACT_APP_BASE}/posts`
   }
 
   async function fetchSubData() {
-    axios.get(`http://localhost:2000/community/${subID}`)
+    axios.get(`${process.env.REACT_APP_BASE}/community/${subID}`)
       .then(result => {
         setSubData(result.data[0])
       })

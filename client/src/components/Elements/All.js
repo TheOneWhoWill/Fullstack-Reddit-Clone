@@ -23,7 +23,7 @@ function All() {
   const [subs, setSubs] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:2000/community/')
+    axios.get(`${process.env.REACT_APP_BASE}/community/`)
     .then(res => setSubs(res.data))
   }, [])
   return (

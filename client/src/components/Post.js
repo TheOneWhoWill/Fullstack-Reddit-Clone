@@ -27,7 +27,7 @@ const Post = React.memo((props) => {
       voter
     }
     if(user !== null) {
-      axios.post(`http://localhost:2000/posts/upvote/${postID}`, postReq).then(res => {
+      axios.post(`${process.env.REACT_APP_BASE}/posts/upvote/${postID}`, postReq).then(res => {
         if(res.data.code === 500) {
           alert(res.data.msg)
         }
@@ -49,7 +49,7 @@ const Post = React.memo((props) => {
       voter
     }
     if(user !== null) {
-      axios.post(`http://localhost:2000/posts/downvote/${postID}`, postReq).then(res => {
+      axios.post(`${process.env.REACT_APP_BASE}/posts/downvote/${postID}`, postReq).then(res => {
         if(res.data.code === 500) {
           alert(res.data.msg)
         }
@@ -84,13 +84,13 @@ const Post = React.memo((props) => {
           postData.link ?
             <LazyLoad height={200} offset={50}>
               <div className="linkContainer">
-                <a href={`${postData.link}`} rel="noreferrer" target="_blank">{postData.link}</a>
-                <div className="linkPlaceholder" title={`${postData.link}`} onClick={() => history.push(postData.link)}>
+                <a href={postData.link} rel="noreferrer" target="_blank">{postData.link}</a>
+                <a className="linkPlaceholder" title={`${postData.link}`} href={postData.link} rel="noreferrer" target="_blank">
                   <FontAwesomeIcon icon={faLink} />
                   <div className="linkTinySqr">
                     <FontAwesomeIcon icon={faLink} />
                   </div>
-                </div>
+                </a>
               </div>
             </LazyLoad>
           : <></>
@@ -105,7 +105,7 @@ const Post = React.memo((props) => {
   }
 
   useEffect(() => {
-    axios.get(`http://localhost:2000/posts/one/${postID}`)
+    axios.get(`${process.env.REACT_APP_BASE}/posts/one/${postID}`)
     .then(result => {
       setPostData(result.data)
       if(postData !== undefined && postData.imageURL) {

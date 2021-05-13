@@ -16,7 +16,7 @@ const Posts = React.memo(() => {
   const profilePicture = currentUser ? currentUser.photoURL : null;
 
   function query(sort) {
-    return currentUser ? `http://localhost:2000/posts/user/feed/${currentUser.uid}/${sort}` : `http://localhost:2000/posts`
+    return currentUser ? `${process.env.REACT_APP_BASE}/posts/user/feed/${currentUser.uid}/${sort}` : `${process.env.REACT_APP_BASE}/posts`
   }
 
   async function changeSort(newSort) {

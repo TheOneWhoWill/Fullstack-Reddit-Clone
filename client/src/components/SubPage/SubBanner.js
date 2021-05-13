@@ -10,7 +10,7 @@ function SubBanner(props) {
   const { setPromptData } = usePrompt();
   const [joined, setJoined] = useState(props.joined);
   const [joinedSubs, setJoinedSubs] = useState([]);
-  const baseUserRequest = 'http://localhost:2000/user/';
+  const baseUserRequest = `${process.env.REACT_APP_BASE}/user/`;
   const subHandle = props.handle ? props.handle : null;
 
   // I send a Axios Request to join a subreddit

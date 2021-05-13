@@ -6,7 +6,7 @@ async function deletePost(voter, id) {
     voter: voter
   }
 
-  axios.delete(`http://localhost:2000/comments/delete/${id}`, { data: postReq })
+  axios.delete(`${process.env.REACT_APP_BASE}/comments/delete/${id}`, { data: postReq })
   .then(res => {
     if(res.data.code === 500) {
       alert(res.data.msg)
