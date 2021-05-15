@@ -91,6 +91,7 @@ const Posts = React.memo(() => {
       {posts.map(post => {
         return <Post post={post} key={post._id} />
       })}
+      <div className="joinPlaces"><h3>Join More Cummunities to have Posts Show Up</h3></div>
     </div>
   );
 })
