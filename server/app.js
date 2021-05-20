@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import userRouter from './routes/user.js';
+import awardRouter from './routes/award.js';
 import postsRouter from './routes/posts.js';
 import commentsRouter from './routes/comments.js';
 import subRedditRouter from './routes/subreddit.js';
@@ -32,5 +33,6 @@ app.use('/posts', postsRouter)
 app.use('/comments', commentsRouter)
 app.use('/community', subRedditRouter)
 app.use('/user', userRouter)
+app.use('/award', awardRouter)
 
 app.listen(PORT, () => console.log(`Server Started on port ${PORT}`))

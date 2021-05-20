@@ -30,14 +30,20 @@ function Award() {
     }
   }
 
-  function awardHandler() {
-    setPromptData('you')
+  async function awardHandler() {
+  
     let newData = {
       sender: AwardData.sender,
       recipient: AwardData.recipient,
       amount: coinToBeSent
     }
-    console.log(newData)
+  
+    axios.post(`${process.env.REACT_APP_BASE}/award`, newData)
+      .then(res => {
+        //res.data.msg
+        setPromptData(res.data.msg)
+      });
+    setAwardData(null);
   }
 
   return (

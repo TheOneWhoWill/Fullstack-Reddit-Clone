@@ -6,12 +6,14 @@ const admin = require('firebase-admin');
 const dbURL = 'mongodb+srv://TheOneWhoWill:Cybercrafter345@main-cluster.yedkf.mongodb.net/AppllicationDB?retryWrites=true&w=majority';
 mongoose.connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true })
 
-exports.createProfile = functions.auth.user().onCreate((user) => {
-  let uid = user.uid;
+exports.createProfile = functions.auth.user().onCreate((userData) => {
+  let user = userData.displayName;
+  let uid = userData.uid;
   let joined = [];
   let credentials = {
     uid,
     joined,
+    user,
     coins: 500
   }
 
