@@ -1,6 +1,8 @@
+import { faCoins } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { usePrompt } from '../../contexts/PromptContext';
-import React, { useEffect, useState } from'react'
 import { useAuth } from '../../contexts/AuthContext';
+import React, { useEffect, useState } from'react'
 import Prompt from './Prompt';
 import Post from '../Post';
 import axios from 'axios';
@@ -8,17 +10,25 @@ import axios from 'axios';
 const Profile = React.memo(() => {
   const { setPromptData } = usePrompt();
   const [posts, setPosts] = useState([]);
+  const [coins, setCoins] = useState([]);
   const { currentUser, resetPassword } = useAuth();
   const [promptMenu, setPromptMenu] = useState(true);
   const [axiosLink] = useState(currentUser ? `${process.env.REACT_APP_BASE}/posts/user/${currentUser.displayName.substring(2)}` : null);
 
   useEffect(() => {
-    axios.get(axiosLink)
+    axios.get(currentUser && `http://localhost:2000/user/${currentUser.uid}/coins`)
       .then(res => {
-        setPosts(res.data)
+        setCoins(res.data);
       })
       .catch(err => {
-        console.log(err)
+        setCoins(0);
+      })
+    axios.get(axiosLink)
+      .then(res => {
+        setPosts(res.data);
+      })
+      .catch(err => {
+        console.log(err);
       })
   }, [axiosLink]);
 
@@ -38,6 +48,13 @@ const Profile = React.memo(() => {
         <div className="profileRight">
           {currentUser ? <h2>{currentUser.displayName}</h2> : <h1>Anonymous User</h1>}
           <h4>{posts.length} Posts</h4>
+          <div className="coinContainer">
+            <FontAwesomeIcon icon={faCoins}/>
+            <div className="coinRight">
+              <h5>Spark Coins</h5>
+              <h6>{coins}</h6>
+            </div>
+          </div>
         </div>
       </div>
       <div className="profilePreferences">

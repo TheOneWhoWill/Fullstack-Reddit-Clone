@@ -1,0 +1,132 @@
+.coinContainer {
+  display: flex;
+  margin-top: 1rem;
+  align-items: center;
+  height: 90px;
+  .coinRight {
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin-left: 10px;
+    h5 {
+      font-size: 24px;
+    }
+    h6 {
+      font-size: 20px;
+      font-weight: 400;
+      line-height: 100%;
+      color: #818384;
+    }
+  }
+  svg {
+    font-size: 38px;
+  }
+}
+
+.awardInput {
+  display: flex;
+  height: 4rem;
+  width: 11rem;
+  color: white;
+  overflow: hidden;
+  align-items: center;
+  border-radius: 0.35rem;
+  background: rgb(73, 73, 73);
+  .inputIncriments {
+    display: flex;
+    width: 3rem;
+    height: 4rem;
+    flex-direction: column;
+    background: #ff4500;
+    button {
+      height: 100%;
+      border: none;
+      color: white;
+      background: none;
+      font-size: 1.2rem;
+      line-height: 1.5rem;
+    }
+    button:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+  }
+  svg {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+  input {
+    height: 100%;
+    width: 100%;
+    border: none;
+    outline: none;
+    background: none;
+    color: white;
+  }
+  input::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button {-webkit-appearance: none}
+  .btn {
+    height: 3rem;
+    width: 6rem;
+    border: none;
+    outline: none;
+    color: white;
+    border-radius: 0.25rem;
+    background-color: #ff4500;
+  }
+}
+
+.AwardContainer {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  display: flex;
+  position: fixed;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.616);
+  .x {
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.4rem;
+    position: absolute;
+  }
+}
+
+.Award {
+  display: flex;
+  padding: 4rem;
+  color: white;
+  position: relative;
+  border-radius: 1rem;
+  align-items: center;
+  font-family: 'Roboto';
+  flex-direction: column;
+  justify-content: center;
+  background-color: #1a1a1b;
+  h1 {
+    font-weight: 300;
+    margin-bottom: 2rem;
+  }
+  .bottomOptions {
+    width: 25rem;
+    display: flex;
+    margin-top: 2rem;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .sendCoins {
+    height: 4rem;
+    width: 11rem;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 1.1rem;
+    letter-spacing: 0.1rem;
+    border-radius: 0.25rem;
+    background-color: #ff4500;
+  }
+  .sendCoins:hover {
+    transition: 0.2s ease;
+    transform: scale(1.05);
+  }
+}

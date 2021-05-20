@@ -1,5 +1,7 @@
 import { faPoll, faLink, faFire, faCertificate, faSort } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Award from '../components/Elements/Prompt/Award';
+import { useAward } from '../contexts/AwardContext';
 import { useAuth } from '../contexts/AuthContext';
 import React, { useEffect, useState } from'react';
 import { useHistory } from 'react-router-dom';
@@ -9,6 +11,7 @@ import Post from './Post';
 const Posts = React.memo(() => {
 
   const history = useHistory();
+  const { AwardData } = useAward();
   let [page, setPage] = useState(1);
   const { currentUser } = useAuth();
   const [posts, setPosts] = useState([]);
@@ -43,6 +46,7 @@ const Posts = React.memo(() => {
 
   return (
     <div className="Posts">
+      {AwardData && <Award />}
       <div className="Post CreatePost">
         <img
           onClick={() => history.push('/profile')}

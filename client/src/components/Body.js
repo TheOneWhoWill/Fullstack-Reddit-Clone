@@ -6,9 +6,10 @@ import Login from './Elements/Login'
 import Profile from './Elements/Profile'
 import Register from './Elements/Register'
 import SubReddit from './SubPage/SubReddit'
+import Award from './Elements/Prompt/Award';
 import Create from './Elements/Create/Create'
 import { Route, Switch } from 'react-router-dom'
-import CreateSubreddit from './Elements/CreateSubreddit'
+import CreateSubreddit from './Elements/CreateSubreddit';
 
 function Body() {
   return (
@@ -22,6 +23,7 @@ function Body() {
       <Route exact path="/create/cummunity" component={CreateSubreddit}/>
       <Route exact path="/r/:sub" component={SubReddit}/>
       <Route exact path="/all" component={All}/>
+      <Route exact path="/award/:post" component={Award}/>
     </Switch>
   );
 }

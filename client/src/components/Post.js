@@ -4,8 +4,9 @@ import { useHistory } from 'react-router-dom';
 import deletePost from './functions/deletePost';
 import { useAuth } from '../contexts/AuthContext';
 import React, { useState, useEffect } from'react';
+import { useAward } from '../contexts/AwardContext';
 import { usePrompt } from '../contexts/PromptContext';
-import { faEllipsisV, faShareAlt, faCommentAlt, faLink } from '@fortawesome/free-solid-svg-icons'
+import { faEllipsisV, faShareAlt, faCommentAlt, faLink, faTrophy } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const Post = React.memo((props) => {
@@ -16,6 +17,7 @@ const Post = React.memo((props) => {
   const [postData, setPostData] = useState();
   const [liked, setLiked] = useState(false);
   const { setPromptData } = usePrompt();
+  const { setAwardData } = useAward();
   const { currentUser } = useAuth();
   const history = useHistory();
   const user = currentUser ? currentUser.uid : null;
@@ -147,7 +149,7 @@ const Post = React.memo((props) => {
               <div className="optionsMenuContent">
                 <button onClick={() => deletePost(currentUser.displayName, postID)}>Delete</button>
                 <button onClick={sharePost}>Share</button>
-                <button>Report</button>
+                <button>Award</button>
               </div>
             }
           </div>
@@ -163,6 +165,10 @@ const Post = React.memo((props) => {
           <button className="postBottomButtons"  onClick={() => sharePost()}>
             <FontAwesomeIcon className="postBottomIcon" icon={faShareAlt} />
             Share
+          </button>
+          <button className="postBottomButtons" onClick={() => setAwardData({recipient: postData.user,sender: currentUser.uid,})}>
+            <FontAwesomeIcon className="postBottomIcon gold" icon={faTrophy} />
+            Award
           </button>
         </div>
       </div>

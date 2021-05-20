@@ -6,20 +6,23 @@ import Body from './components/Body'
 import { BrowserRouter } from 'react-router-dom'
 import Header from './components/Elements/Header'
 import { AuthProvider } from './contexts/AuthContext'
+import { AwardProvider } from './contexts/AwardContext'
 import { PromptProvider } from './contexts/PromptContext'
 
 function App() {
   return (
-    <PromptProvider>
-      <AuthProvider>
-        <BrowserRouter>
-          <div className="App">
-            <Header />
-            <Body />
-          </div>
-        </BrowserRouter>
-      </AuthProvider>
-    </PromptProvider>
+    <AwardProvider>
+      <PromptProvider>
+        <AuthProvider>
+          <BrowserRouter>
+            <div className="App">
+              <Header />
+              <Body />
+            </div>
+          </BrowserRouter>
+        </AuthProvider>
+      </PromptProvider>
+    </AwardProvider>
   );
 }
 
